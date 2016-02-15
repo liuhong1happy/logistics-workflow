@@ -151,6 +151,7 @@ func CreateSession(sessionID string, mode string, sessionName string, hosts []st
 		// within the session will be observed in following queries (read-your-writes).
 		// http://godoc.org/github.com/finapps/mgo#Session.SetMode
 		mongoSession.mongoSession.SetMode(mgo.Monotonic, true)
+        break
 	}
 
 	// Have the session check for errors.
