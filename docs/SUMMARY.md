@@ -11,3 +11,4 @@
     * [界面设计](design/ui.md)
 * [开发文档](development/README.md)
     * [开发环境搭建](development/environment.md)
+    * [产品发布步骤](development/release.md)
