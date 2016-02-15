@@ -22,10 +22,10 @@
         # 这里安装npm就会顺带安装node
         brew install npm
 
-更换npm镜像源
+    更换npm镜像源
 
-    # 编辑 ~/.npmrc 加入下面内容
-    registry = https://registry.npm.taobao.org
+        # 编辑 ~/.npmrc 加入下面内容
+        registry = https://registry.npm.taobao.org
 
 3. 安装react-native-cli
 
@@ -33,9 +33,9 @@
         
 4. 安装JDK
 
-下载[jdk](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)。点击安装即可！
+    下载[jdk](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)。点击安装即可！
 
-![JavaJDK](images/JavaJDK.png)
+    ![JavaJDK](images/JavaJDK.png)
 
 5. 安装android sdk
 
