@@ -15,7 +15,7 @@ console.log(isIOS);
     
 var SystemContainer = React.createClass({
     render:function(){
-        return (<View>
+        return (<View style={styles.container}>
                         {this.props.children}
                 </View>)
     }
@@ -25,7 +25,8 @@ var styles = {
     container:{
         marginTop:isIOS?20:0,
         height:isIOS?height-20:height,
-        width:width
+        width:width,
+        backgroundColor:"#f0f0f0"
     }
 }
 

@@ -4,7 +4,8 @@ var {
   View,
   Text,
   Navigator,
-  StyleSheet
+  StyleSheet,
+  TabBarIOS
 } = React;
 
 var HomeView = require('./home')
@@ -13,41 +14,24 @@ var SearchView = require('./search')
 var UserView = require('./user')
 
 var MainApp = React.createClass({
-    configureScene(route){
-      return Navigator.SceneConfigs.FloatFromRight;
+    getInitialState:function(){
+        return {
+            selectedTab:"home"
+        }
     },
-    renderScene(router, navigator){
-      var Component = null; this._navigator = navigator;
-      switch(router.name){
-        case "home":
-          Component = HomeView;
-          break;
-        case "send":
-          Component = SendView;
-          break;
-        case "user":
-          Component = UserView;
-          break;
-        default: 
-          Component = SearchView;
-      }
-      return <Component navigator={navigator} />
+    _onPress:function(){
+      console.log(this.props)  
     },
-    render() {
+    render:function() {
         return (
-            <Navigator
-                initialRoute={{name: 'home'}}
-                configureScene={this.configureScene}
-                renderScene={this.renderScene} />
-        );
-    }
-
+      <TabBarIOS tintColor="#0485A9" barTintColor="white">
+        <TabBarIOS.Item title="首页" systemIcon="bookmarks" selected={this.state.selectedTab === 'home'} onPress={()=>{ this.setState({selectedTab:"home"})}}><HomeView/></TabBarIOS.Item>
+        <TabBarIOS.Item title="搜索" systemIcon="search" selected={this.state.selectedTab === 'search'} onPress={()=>{ this.setState({selectedTab:"search"})}}><SearchView/></TabBarIOS.Item>
+        <TabBarIOS.Item title="发布" systemIcon="more" selected={this.state.selectedTab === 'send'} onPress={()=>{ this.setState({selectedTab:"send"})}}><SendView/></TabBarIOS.Item>
+        <TabBarIOS.Item title="我" systemIcon="contacts" selected={this.state.selectedTab === 'user'} onPress={()=>{ this.setState({selectedTab:"user"})}}><UserView/></TabBarIOS.Item>
+      </TabBarIOS>)
+    },
+    
 })
-
-var styles = StyleSheet.create({
-    container:{
-        marginTop:20
-    }
-})
-
+    
 module.exports = MainApp;

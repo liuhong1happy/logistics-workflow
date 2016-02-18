@@ -5,8 +5,8 @@ var {
   Navigator,
   StyleSheet
 } = React;
+
 var SystemContainer = require('./base/system-container')
-var TabBars = require('./base/tabbars')
 
 var HomeView = React.createClass({
     goBack(){
@@ -15,10 +15,9 @@ var HomeView = React.createClass({
     render() {
         return (
             <SystemContainer>
-                <Text onPress={this.goBack} >
-                    I am Feed View! Tab to default view!
+                <Text>
+                    This is Home Page!
                 </Text>
-                <TabBars></TabBars>
             </SystemContainer>  
         )
     }

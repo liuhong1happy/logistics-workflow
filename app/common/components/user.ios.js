@@ -13,8 +13,8 @@ var UserView = React.createClass({
     render() {
         return (
             <SystemContainer>
-                <Text onPress={this.goBack} >
-                    I am Feed View! Tab to default view!
+                <Text>
+                    This is User Page!
                 </Text>
             </SystemContainer>  
         )
