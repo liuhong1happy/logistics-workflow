@@ -5,7 +5,7 @@ var {
   Navigator,
   StyleSheet
 } = React;
-var SystemContainer = require('./base/system-container')
+var SystemContainer = require('../base/system-container')
 var SendView = React.createClass({
     goBack(){
       this.props.navigator.push({name:"home"});
@@ -13,9 +13,7 @@ var SendView = React.createClass({
     render() {
         return (
             <SystemContainer>
-                <Text>
-                     This is Send Page!
-                </Text>
+                {this.props.children}
             </SystemContainer>  
         )
     }

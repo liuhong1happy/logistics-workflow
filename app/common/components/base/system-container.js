@@ -21,13 +21,13 @@ var SystemContainer = React.createClass({
     }
 })
         
-var styles = {
+var styles = StyleSheet.create({
     container:{
         marginTop:isIOS?20:0,
         height:isIOS?height-20:height,
         width:width,
         backgroundColor:"#f0f0f0"
     }
-}
+})
 
 module.exports = SystemContainer;

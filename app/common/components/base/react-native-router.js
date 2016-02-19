@@ -5,22 +5,27 @@ var {
   Text,
   Navigator,
   StyleSheet,
-  TabBarIOS
+  TabBarIOS,
+  Platform,
+  Dimensions
 } = React;
 
 var navigator = null;
 
 var RouteHistory = {
-    hashTable:[],
-    curHash:{state:{},hash:"/"},
-    pushHash:function(hash,state){
-        this.hashTable.push(this.curHash)
-        this.curHash = {
-            hash:hash,
-            state:state
+    routeTable:[],
+    curRoute:{index:0,name:"/"},
+    pushRoute:function(name,index){
+        index = index?index:0;
+        this.routeTable.push(this.curRoute);
+        this.curRoute = {
+            name:name,
+            index:index
         };
         if(navigator){
-            navigator.push(hash)
+            navigator.push({
+                name:name,index:index
+            })
         }
     }
 }
@@ -46,7 +51,6 @@ var RouterUtils = {
             else if(element.props.children instanceof Object){
                 route.routes = this.createRoutesByPropsChildren([element.props.children], route)
             }
-            delete element.props.children;
             routes.push(route);
         }
          
@@ -58,7 +62,6 @@ var RouterUtils = {
                 location:""
             }
             parentRoute.routes = this.createRoutesByPropsChildren(parentProps.children,parentRoute);
-            delete parentProps.children;
             return parentRoute;
     }
 }
@@ -71,9 +74,6 @@ var Router = React.createClass({
     };
   },
   componentWillMount:function(){
-      if(location.hash!=this.state.location){
-          RouteHistory.pushHash(this.state.location);
-      }
       var routes = RouterUtils.createRoutes(this.props);
       var components = this._parseHash(routes,this.state.location);
       this.setState({
@@ -82,7 +82,9 @@ var Router = React.createClass({
       })
   },
   componentDidMount:function(){
-     window.addEventListener("hashchange",this._handleHashChange)  
+      // 全局navigator赋值
+     navigator = this.refs.navigator;
+     RouteHistory.pushRoute(this.state.location);
   },
   componentWillUnmout:function(){
       window.removeEventListener("hashchange",this._handleHashChange)
@@ -131,7 +133,7 @@ var Router = React.createClass({
   },
   _parseHash:function(routes,hash){
       var route = this._parseHashByRoutes(routes.routes,hash);
-      if(route==null) return React.createElement("div",null,"404");
+      if(route==null) return (<Text>404</Text>);
       return this._createElementByComponents(route.components,route.props);
    },
     _createElementByComponent:function(component,components,props){
@@ -146,51 +148,50 @@ var Router = React.createClass({
     _createElementByComponents:function(components,props){
             return this._createElementByComponent(components[0],components,props)
     },
-  _handleHashChange:function(){
-      var hash = location.hash.replace("#","");
+  _handleHashChange:function(route,navigator){
+      var hash = route.name;
       var components = this._parseHash(this.state.routes,hash);
-      this.setState({
-          location:hash,
-          components:components
-      })
+      return components;
   },
   render: function() {     
     return (
-      <div className={"react-router"+(this.props.className?" "+this.props.className:"")}>
-            { 
-                    this.state.components 
-            }
-      </div>
+      <Navigator ref="navigator" initialRoute={{name:"/",index:0}} renderScene={this._handleHashChange}>
+      </Navigator>
     );
   }
 });
+
 var Route = React.createClass({
   render: function() {
-    return (<div></div>);
+    return (<View style={styles.container}></View>);
   }
 });
 var Link = React.createClass({
-    handleClick:function(e){
+    handlePress:function(e){
         var to = this.props.to;
-        RouteHistory.pushHash(to);
-        if(this.props.onClick){
-            this.props.onClick(e);
+        RouteHistory.pushRoute(to);
+        if(this.props.onPress){
+            this.props.onPress(e);
         }
     },
     render:function(){
-        var props = this.props;
-        if(props.anchor){
-                return (<a data-target={props["data-target"]} title={props.title} className={"link"+(props.className?" "+props.className:"")+(props.active?" active":"")}  onClick={this.handleClick} style={props.style}>
-                                { props.children }
-                        </a>)
-        }else{
-                return (<div data-target={props["data-target"]} title={props.title} className={"link"+(props.className?" "+props.className:"")+(props.active?" active":"")}  onClick={this.handleClick} style={props.style}>
-                        { props.children }
-                </div>)
-        }
-
+        return (<TouchableHighlight style={styles.button} underlayColor="#B5B5B5" onPress={this.props.handlePress}>
+                { this.props.children }
+                </TouchableHighlight>)
     }
 });
+
+var {height, width} = Dimensions.get('window');
+var isIOS = Platform.OS === 'ios';
+var styles = StyleSheet.create({
+    container:{
+        marginTop:isIOS?20:0,
+        height:isIOS?height-20:height,
+        width:width,
+        backgroundColor:"#f0f0f0"
+    }
+})
+
         
 module.exports.Router = Router;
 module.exports.Route = Route;
