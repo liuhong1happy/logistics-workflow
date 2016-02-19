@@ -5,7 +5,8 @@ var {
   Text,
   Navigator,
   StyleSheet,
-  TabBarIOS
+  TabBarIOS,
+   StatusBar
 } = React;
 
 
@@ -24,7 +25,10 @@ var Router = router.Router;
 
 var MainApp = React.createClass({
     render:function(){
-        return (<View>{this.props.children}</View>)
+        return (<View>
+                <StatusBar/>
+                {this.props.children}
+            </View>)
     }
 })
 

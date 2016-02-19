@@ -4,27 +4,20 @@ var {
   View,
   Text,
   Navigator,
-  StyleSheet,
-  TabBarIOS,
-  Platform,
-  Dimensions
+  TouchableHighlight
 } = React;
 
 var navigator = null;
-
 var RouteHistory = {
     routeTable:[],
     curRoute:{index:0,name:"/"},
-    pushRoute:function(name,index){
+    pushRoute:function(name,index,config){
         index = index?index:0;
         this.routeTable.push(this.curRoute);
-        this.curRoute = {
-            name:name,
-            index:index
-        };
+        this.curRoute = { name:name, index:index, config:config };
         if(navigator){
             navigator.push({
-                name:name,index:index
+                name:name,index:index,config:config
             })
         }
     }
@@ -153,9 +146,15 @@ var Router = React.createClass({
       var components = this._parseHash(this.state.routes,hash);
       return components;
   },
+  _handleConfigureScene:function(route,routeStack){
+      // PushFromRight FloatFromRight FloatFromLeft FloatFromBottom 
+      // FloatFromBottomAndroid FadeAndroid
+      // HorizontalSwipeJump VerticalUpSwipeJump VerticalDownSwipeJump
+      return route.config || Navigator.SceneConfigs.FloatFromRight;
+  },
   render: function() {     
     return (
-      <Navigator ref="navigator" initialRoute={{name:"/",index:0}} renderScene={this._handleHashChange}>
+      <Navigator ref="navigator" initialRoute={{name:"/",index:0}} configureScene={this._handleConfigureScene} renderScene={this._handleHashChange}>
       </Navigator>
     );
   }
@@ -163,34 +162,25 @@ var Router = React.createClass({
 
 var Route = React.createClass({
   render: function() {
-    return (<View style={styles.container}></View>);
+    return (<View></View>);
   }
 });
 var Link = React.createClass({
     handlePress:function(e){
-        var to = this.props.to;
-        RouteHistory.pushRoute(to);
+        var name = this.props.name;
+        var index = this.props.index || 0;
+        var config = this.props.config || Navigator.SceneConfigs.FloatFromRight;
+        RouteHistory.pushRoute(name,index,config);
         if(this.props.onPress){
             this.props.onPress(e);
         }
     },
     render:function(){
-        return (<TouchableHighlight style={styles.button} underlayColor="#B5B5B5" onPress={this.props.handlePress}>
+        return (<TouchableHighlight underlayColor="#B5B5B5" onPress={this.handlePress}>
                 { this.props.children }
                 </TouchableHighlight>)
     }
 });
-
-var {height, width} = Dimensions.get('window');
-var isIOS = Platform.OS === 'ios';
-var styles = StyleSheet.create({
-    container:{
-        marginTop:isIOS?20:0,
-        height:isIOS?height-20:height,
-        width:width,
-        backgroundColor:"#f0f0f0"
-    }
-})
 
         
 module.exports.Router = Router;

@@ -1,16 +1,15 @@
 var React = require('react-native')
 var {
     Text,
-    View
+    View,
+    Navigator
 } = React;
 
 var router = require('../base/react-native-router');
 var History = router.History;
+var Link = router.Link;
     
 var HomeIndexView = React.createClass({
-    toSearchIndex:function(){
-        History.pushRoute("/search/index")
-    },
     render:function(){
         return (<View>
                 <View>
@@ -18,9 +17,9 @@ var HomeIndexView = React.createClass({
                         This is Home Index Page!
                     </Text>
                 </View>
-                <View style={{"backgroundColor":"red"}}>
-                        <Text onPress={this.toSearchIndex}>To Search</Text>
-                </View>
+                <Link style={{"backgroundColor":"red"}} name="/search/index" index={0} config={Navigator.SceneConfigs.FadeAndroid}>
+                        <Text>To Search</Text>
+                </Link>
                 </View>)
     }
 })
