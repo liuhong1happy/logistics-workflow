@@ -22,7 +22,6 @@ var RouteHistory = {
         }
     }
 }
-
 var RouterUtils = {
     createRoute:function(element,parentProps){
         var location=parentProps.location+"/"+element.props.path,
@@ -159,7 +158,6 @@ var Router = React.createClass({
     );
   }
 });
-
 var Route = React.createClass({
   render: function() {
     return (<View></View>);
@@ -181,7 +179,6 @@ var Link = React.createClass({
                 </TouchableHighlight>)
     }
 });
-
         
 module.exports.Router = Router;
 module.exports.Route = Route;
