@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "release":"cd android && ./gradlew assembleRelease && ./gradlew installRelease"
+    "release":"cd android && ./gradlew assembleRelease && ./gradlew installRelease",
+    "clean:babelrc": "find ./node_modules -name react-packager -prune -o -name '.babelrc' -print | xargs rm -f"
   },
   "dependencies": {
-    "react-native": "^0.17.0"
+    "react-native": "^0.19.0"
   }
 }

@@ -3,10 +3,12 @@ var {
   View,
   Text,
   Navigator,
-  StyleSheet
+  StyleSheet,
+  Dimensions
 } = React;
 
-var SystemContainer = require('../base/system-container')
+var system = require('../base/system-container')
+var {SystemContainer} = system;
 
 var HomeView = React.createClass({
     goBack(){

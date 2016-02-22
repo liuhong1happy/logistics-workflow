@@ -10,24 +10,34 @@ var {
     
 var {height, width} = Dimensions.get('window');
 var isIOS = Platform.OS === 'ios';
-
-console.log(isIOS);
     
 var SystemContainer = React.createClass({
     render:function(){
-        return (<View style={styles.container}>
+        return (<View style={styles.system}>
+                        {this.props.children}
+                </View>)
+    }
+})
+        
+var ContentContainer = React.createClass({
+    render:function(){
+        return (<View style={styles.content}>
                         {this.props.children}
                 </View>)
     }
 })
         
 var styles = StyleSheet.create({
-    container:{
+    system:{
         marginTop:isIOS?20:0,
         height:isIOS?height-20:height,
-        width:width,
-        backgroundColor:"#f0f0f0"
+        width:width
+    },
+    content:{
+        height:isIOS?height-20:height,
+        width:width
     }
 })
 
-module.exports = SystemContainer;
+module.exports.SystemContainer = SystemContainer;
+module.exports.ContentContainer = ContentContainer;

@@ -5,9 +5,11 @@ var {
   Text,
   Navigator,
   StyleSheet,
-  TabBarIOS
+  TabBarIOS,
+  Dimensions
 } = React;
 
+var {height, width} = Dimensions.get('window');
 
 var HomeView = require('./home/home')
 var HomeIndexView = require('./home/home-index')
@@ -24,7 +26,7 @@ var Router = router.Router;
 
 var MainApp = React.createClass({
     render:function(){
-        return (<View>
+        return (<View style={styles.main}>
                 {this.props.children}
             </View>)
     }
@@ -47,7 +49,13 @@ var RouterApp = React.createClass({
                         </Route>
                 </Router>)
     },
-    
 })
+        
+var styles = {
+    main:{
+        height:height,
+        width:width
+    }
+}
     
 module.exports = RouterApp;
