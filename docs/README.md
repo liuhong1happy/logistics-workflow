@@ -10,3 +10,11 @@
 4. 界面开发 2.24-2.25
 4. 产品测试 2.26-2.28
 5. 发布上线 2.29
+
+## 组建开发
+
+- [x] react-native-router
+- [x] react-native-tabbar
+- [ ] react-native-toolbar
+- [ ] react-native-form
+- [ ] react-native-chart 
