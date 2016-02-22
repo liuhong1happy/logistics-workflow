@@ -5,7 +5,8 @@ var {
   Navigator,
   StyleSheet
 } = React;
-var SystemContainer = require('../base/system-container');
+var system = require('../base/system-container');
+var {SystemContainer} = system;
 
 var SearchView = React.createClass({
     render() {

@@ -5,11 +5,11 @@ var {
   Navigator,
   StyleSheet
 } = React;
-var SystemContainer = require('../base/system-container')
+
+var system = require('../base/system-container');
+var {SystemContainer} = system;
+
 var UserView = React.createClass({
-    goBack(){
-      this.props.navigator.push({name:"home"});
-    },
     render() {
         return (
             <SystemContainer>

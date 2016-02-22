@@ -42,7 +42,7 @@ var RouterApp = React.createClass({
                                 <Route component={SendIndexView} path="index"></Route>
                         </Route>
                         <Route component={SearchView} path="search">
-                                 <Route component={SendIndexView} path="index"></Route>
+                                 <Route component={SearchIndexView} path="index"></Route>
                         </Route>
                         <Route component={UserView} path="user">
                                 <Route component={UserIndexView} path="index"></Route>
