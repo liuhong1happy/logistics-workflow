@@ -35,7 +35,8 @@ var styles = StyleSheet.create({
     },
     content:{
         height:isIOS?height-20:height,
-        width:width
+        width:width,
+        backgroundColor:"#ddd"
     }
 })
 

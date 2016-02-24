@@ -17,11 +17,11 @@ var TabBars = React.createClass({
         }
     },
     render:function(){
-        return (<TabBar barColor="#bbbbbb">
-                        <Tab selected={this.props.name=="/home/index"} systemIcon="home" name="/home/index" defaultColor="#999" selectedColor="#ee9900" title="首页" onPress={this._onPress}></Tab>
-                        <Tab selected={this.props.name=="/search/index"} systemIcon="search" name="/search/index" defaultColor="#999" selectedColor="#ee9900"  title="搜索" onPress={this._onPress}></Tab>
-                        <Tab selected={this.props.name=="/send/index"} systemIcon="send" name="/send/index" defaultColor="#999" selectedColor="#ee9900" title="发布" onPress={this._onPress}></Tab>
-                        <Tab selected={this.props.name=="/user/index"} systemIcon="user" name="/user/index" defaultColor="#999" selectedColor="#ee9900" title="我" onPress={this._onPress}></Tab>
+        return (<TabBar barColor="#fff">
+                        <Tab selected={this.props.name=="/home/index"} systemIcon="home" name="/home/index" defaultColor="#bbb" selectedColor="#ee9900" title="首页" onPress={this._onPress}></Tab>
+                        <Tab selected={this.props.name=="/search/index"} systemIcon="search" name="/search/index" defaultColor="#bbb" selectedColor="#ee9900"  title="搜索" onPress={this._onPress}></Tab>
+                        <Tab selected={this.props.name=="/send/index"} systemIcon="send" name="/send/index" defaultColor="#bbb" selectedColor="#ee9900" title="发布" onPress={this._onPress}></Tab>
+                        <Tab selected={this.props.name=="/user/index"} systemIcon="user" name="/user/index" defaultColor="#bbb" selectedColor="#ee9900" title="我" onPress={this._onPress}></Tab>
                     </TabBar>)
     }
 })

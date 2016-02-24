@@ -4,7 +4,7 @@ var {
   View,
   Text,
   Image,
-  TouchableHighlight,
+  TouchableOpacity,
   StyleSheet,
   Dimensions
 } = React;
@@ -60,7 +60,7 @@ var Tab = React.createClass({
         if(systemIcon){
             var glypy= this.state.glypy;
             var color = selected ?  selectedColor : defaultColor;
-            return (<Text style={{"color":color,"fontFamily":Utils.from,"fontSize":20,textAlign:"center"}}>{glypy[systemIcon]}</Text>)
+            return (<Text style={{"color":color,"fontFamily":Utils.from,"fontSize":20,textAlign:"center","marginTop":5}}>{glypy[systemIcon]}</Text>)
         } else {
             return (<Image source={selected? icon : selectedIcon}></Image>)
         }
@@ -68,7 +68,7 @@ var Tab = React.createClass({
     render:function(){
         var { title } = this.props; 
         var icon = this.genIcon();
-        return (<TouchableHighlight style={styles.tab} onPress={this.onPress}>
+        return (<TouchableOpacity style={styles.tab} onPress={this.onPress}>
                         <View>
                             <View>
                                 {icon}
@@ -77,7 +77,7 @@ var Tab = React.createClass({
                                 <Text style={styles.label}>{title}</Text>
                             </View>
                         </View>
-                </TouchableHighlight>)
+                </TouchableOpacity>)
     }
 })
     
@@ -90,16 +90,20 @@ var styles = StyleSheet.create({
         flexDirection:"row",
         justifyContent:"space-around",// 水平方向
         alignItems:"center",
-        width:width
+        width:width,
+        borderTopColor:"#ccc",
+        borderTopWidth:0.5,
+        borderStyle:"solid"
     },
     tab:{
         flex:1
     },
     labelRow:{
-        marginTop:5
+        marginTop:5,
+        marginBottom:5
     },
     label:{
-        fontSize:12,
+        fontSize:10,
         color:"#ddd",
         textAlign:"center"
     }

@@ -11,10 +11,13 @@ var {ContentContainer} = system;
 
 var router = require('../base/react-native-router');
 var Link = router.Link;
+
+var ToolBar = require('../base/react-native-toolbar');
     
 var SendIndexView = React.createClass({
     render:function(){
         return (<ContentContainer>
+                    <ToolBar navIcon={{}} logo={{icon:require('../../images/logo.png')}} title="发布" subtitle="当前状态：在线" actions={[{title:"更多"}]}></ToolBar>
                     <View>
                         <Text>
                             This is Send Index Page!
