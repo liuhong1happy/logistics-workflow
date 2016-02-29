@@ -9,5 +9,12 @@
   },
   "dependencies": {
     "react-native": "^0.19.0"
+  },
+  "devDependencies":{
+    "events":"^1.1.0",
+    "flux": "^2.0.1",
+    "key-mirror": "^1.0.0",
+    "keymirror": "^0.1.1",
+    "object-assign": "^2.0.0"
   }
 }

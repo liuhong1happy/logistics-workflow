@@ -4,7 +4,12 @@ var {
     View,
     Navigator,
     Picker,
-    TextInput
+    TextInput,
+    ScrollView,
+    ListView,
+    StyleSheet,
+    RecyclerViewBackedScrollView,
+    TouchableHighlight
 } = React;
 
 var router = require('../base/react-native-router');
@@ -16,34 +21,122 @@ var system = require('../base/system-container')
 var {ContentContainer} = system;
 
 var ToolBar = require('../base/react-native-toolbar');
-    
+
+var SystemStore = require('../../stores/system-store');
+var SystemConstants = require('../../constants/system-constants');
+var EventTypes = SystemConstants.EventTypes;
+
+
+var logistics = require('../../images/logistics.png');
+
 var HomeIndexView = React.createClass({
     getInitialState:function(){
+        var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         return {
-            language:""
+            mySendInfoList:ds.cloneWithRows(SystemStore.getMySendInfo()),
+            messageList:ds.cloneWithRows(SystemStore.getMyMessage())
         }
     },
+    componentDidMount:function(){
+        SystemStore.addChangeListener(EventTypes.RECEIVED_MY_SEND_INFO,this._onChange);
+        SystemStore.addChangeListener(EventTypes.RECEIVED_MY_MESSAGE,this._onChange);
+    },
+    componentWillUnmount:function(){
+        SystemStore.removeChangeListener(EventTypes.RECEIVED_MY_SEND_INFO,this._onChange);
+        SystemStore.removeChangeListener(EventTypes.RECEIVED_MY_MESSAGE,this._onChange);
+    },
+    _onChange:function(){
+        var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.setState({
+            mySendInfoList:ds.cloneWithRows(SystemStore.getMySendInfo()),
+            messageList:ds.cloneWithRows(SystemStore.getMyMessage())
+        })
+    },
+    _pressRow:function(){
+        
+    },
+    _renderMySendInfoRow:function(rowData, sectionID, rowID){
+        var title = rowData.source+"到"+rowData.target+"，联系方式："+rowData.mobile;
+        return (
+          <TouchableHighlight onPress={() => this._pressRow(rowID)}>
+            <View>
+              <View style={styles.row}>
+                <Text style={styles.text}>
+                 {title}
+                </Text>
+              </View>
+            </View>
+          </TouchableHighlight>
+        );
+    },
+    _renderMyMessageRow:function(rowData, sectionID, rowID){
+        var title = rowData.subtitle;
+        return (
+          <TouchableHighlight onPress={() => this._pressRow(rowID)}>
+            <View>
+              <View style={styles.row}>
+                <Text style={styles.text}>
+                   {title}
+                </Text>
+              </View>
+            </View>
+          </TouchableHighlight>
+        );
+    },
     render:function(){
+        
+        
         return (<ContentContainer>
-                        <ToolBar navIcon={{}} logo={{icon:require('../../images/logo.png')}} title="首页" subtitle="当前状态：在线" actions={[{title:"更多"}]}></ToolBar>
-                        <View>
-                            <Text>
-                                This is Home Index Page!
-                            </Text>
-                        </View>
-                        <Link style={{"backgroundColor":"red"}} name="/search/index" index={0} config={Navigator.SceneConfigs.FadeAndroid}>
-                                <Text>To Search</Text>
-                        </Link>
-                        <Picker selectedValue={this.state.language} onValueChange={(lang) => this.setState({language: lang})}>
-                              <Picker.Item label="请选择你熟悉的编程语言" value="" />
-                              <Picker.Item label="Java" value="java" />
-                              <Picker.Item label="JavaScript" value="js" />
-                        </Picker>
-                        <TextInput keyboardType="email-address" style={{height: 40, borderColor: 'gray', borderWidth: 1}} onChangeText={(text) => this.setState({text})} value={this.state.text} />
-                        <TextInput keyboardType="email-address" style={{height: 40, borderColor: 'gray', borderWidth: 1}} onChangeText={(title) => this.setState({title})} value={this.state.title} />
+                        <ToolBar navIcon={{}} logo={{icon:require('../../images/logo.png')}} title="首页" subtitle="当前状态：在线" actions={[{title:"搜索"},{title:"添加"}]}></ToolBar>
+                        <ScrollView>
+                                <View style={styles.listTitle}><Text>我发布的信息</Text></View>
+                                <ListView 
+                                dataSource={this.state.mySendInfoList}
+                                renderRow={this._renderMySendInfoRow}
+                                renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
+                                renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}
+                                renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}></ListView>
+                                <View style={styles.listTitle}><Text>我的消息</Text></View>
+                                <ListView 
+                                dataSource={this.state.messageList}
+                                renderRow={this._renderMyMessageRow}
+                                renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
+                                renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}
+                                renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}></ListView>
+                        </ScrollView>              
                         <TabBars name="/home/index"></TabBars>
                 </ContentContainer>)
     }
 })
+
+
+var styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: 10,
+    backgroundColor: '#F6F6F6',
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#CCCCCC',
+  },
+  thumb: {
+    width: 64,
+    height: 64,
+  },
+  text: {
+    flex: 1,
+  },
+  listTitle:{
+    height:30,
+    padding:10,
+    backgroundColor:"#eee",
+    marginTop:5,
+    borderTopWidth:1,
+    borderTopColor:"#ddd",
+    borderStyle:"solid"
+  }
+});
 
 module.exports = HomeIndexView;
