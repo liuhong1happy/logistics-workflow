@@ -15,6 +15,6 @@
 
 - [x] react-native-router
 - [x] react-native-tabbar
-- [ ] react-native-toolbar
+- [x] react-native-toolbar
 - [ ] react-native-form
 - [ ] react-native-chart 
