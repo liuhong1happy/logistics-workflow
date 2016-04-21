@@ -11,7 +11,7 @@ var WebAPIUtils = require('./common/utils/web-api-utils');
 // test
 WebAPIUtils.initData();
 
-var LogisticsWorkflow = React.createClass({
+var app = React.createClass({
   render: function() {
     return (
       <MainApp />
@@ -19,6 +19,4 @@ var LogisticsWorkflow = React.createClass({
   }
 });
 
-AppRegistry.registerComponent('LogisticsWorkflow', () => LogisticsWorkflow);
-	  
-module.exports = LogisticsWorkflow;
+AppRegistry.registerComponent('app', () => app);

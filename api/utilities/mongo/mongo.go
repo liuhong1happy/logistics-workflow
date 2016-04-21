@@ -8,9 +8,7 @@ package mongo
 import (
 	"encoding/json"
 	"fmt"
-	"strings"
-	"time"
-
+    
 	log "github.com/goinggo/tracelog"
 	"github.com/kelseyhightower/envconfig"
 	"gopkg.in/mgo.v2"
@@ -33,10 +31,7 @@ var (
 type (
 	// mongoConfiguration contains settings for initialization.
 	mongoConfiguration struct {
-		Hosts    string
-		Database string
-		UserName string
-		Password string
+        Url string
 	}
 
 	// mongoManager contains dial and session information.
@@ -76,21 +71,14 @@ func Startup(sessionID string) error {
 		sessions: make(map[string]mongoSession),
 	}
 
-	// Log the mongodb connection straps.
-	log.Trace(sessionID, "Startup", "MongoDB : Hosts[%s]", config.Hosts)
-	log.Trace(sessionID, "Startup", "MongoDB : Database[%s]", config.Database)
-	log.Trace(sessionID, "Startup", "MongoDB : Username[%s]", config.UserName)
-
-	hosts := strings.Split(config.Hosts, ",")
-
 	// Create the strong session.
-	if err := CreateSession(sessionID, "strong", MasterSession, hosts, config.Database, config.UserName, config.Password); err != nil {
+	if err := CreateSession(sessionID, "strong", MasterSession,  config.Url); err != nil {
 		log.CompletedError(err, sessionID, "Startup")
 		return err
 	}
 
 	// Create the monotonic session.
-	if err := CreateSession(sessionID, "monotonic", MonotonicSession, hosts, config.Database, config.UserName, config.Password); err != nil {
+	if err := CreateSession(sessionID, "monotonic", MonotonicSession,  config.Url); err != nil {
 		log.CompletedError(err, sessionID, "Startup")
 		return err
 	}
@@ -113,23 +101,15 @@ func Shutdown(sessionID string) error {
 }
 
 // CreateSession creates a connection pool for use.
-func CreateSession(sessionID string, mode string, sessionName string, hosts []string, databaseName string, username string, password string) error {
-	log.Startedf(sessionID, "CreateSession", "Mode[%s] SessionName[%s] Hosts[%s] DatabaseName[%s] Username[%s]", mode, sessionName, hosts, databaseName, username)
+func CreateSession(sessionID string, mode string, sessionName string, url string) error {
+	log.Startedf(sessionID, "CreateSession", "Mode[%s] Url[%s]", mode, sessionName, url)
 
 	// Create the database object
-	mongoSession := mongoSession{
-		mongoDBDialInfo: &mgo.DialInfo{
-			Addrs:    hosts,
-			Timeout:  60 * time.Second,
-			Database: databaseName,
-			Username: username,
-			Password: password,
-		},
-	}
+	mongoSession := mongoSession{}
 
 	// Establish the master session.
 	var err error
-	mongoSession.mongoSession, err = mgo.DialWithInfo(mongoSession.mongoDBDialInfo)
+	mongoSession.mongoSession, err = mgo.Dial(url)
 	if err != nil {
 		log.CompletedError(err, sessionID, "CreateSession")
 		return err
@@ -151,7 +131,6 @@ func CreateSession(sessionID string, mode string, sessionName string, hosts []st
 		// within the session will be observed in following queries (read-your-writes).
 		// http://godoc.org/github.com/finapps/mgo#Session.SetMode
 		mongoSession.mongoSession.SetMode(mgo.Monotonic, true)
-        break
 	}
 
 	// Have the session check for errors.
@@ -302,3 +281,4 @@ func Execute(sessionID string, mongoSession *mgo.Session, databaseName string, c
 	log.Completed(sessionID, "Execute")
 	return nil
 }
+

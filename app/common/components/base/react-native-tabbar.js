@@ -60,7 +60,7 @@ var Tab = React.createClass({
         if(systemIcon){
             var glypy= this.state.glypy;
             var color = selected ?  selectedColor : defaultColor;
-            return (<Text style={{"color":color,"fontFamily":Utils.from,"fontSize":20,textAlign:"center","marginTop":5}}>{glypy[systemIcon]}</Text>)
+            return (<Text style={{"color":color,"fontFamily":Utils.from,"fontSize":20,textAlign:"center","marginTop":5,"lineHeight":36,"textAlignVertical":"center"}}>{glypy[systemIcon]}</Text>)
         } else {
             return (<Image source={selected? icon : selectedIcon}></Image>)
         }

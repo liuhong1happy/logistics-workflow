@@ -20,14 +20,14 @@ var ActionButton = React.createClass({
     },
     genImage:function(){
         if(this.props.icon){
-            return (<Image source={this.props.icon} width={24} height={24} />)
+            return (<Image source={this.props.icon} style={styles.actionImg} />)
         }else{
             return (<Text></Text>)
         }
     },
     render:function(){
         var img = this.genImage();
-        return (<TouchableOpacity onPress={this.onPress} style={ [styles.button,{width:this.props.width} ]}>
+        return (<TouchableOpacity onPress={this.onPress} style={ [styles.button,{"width":this.props.width,"marginLeft":this.props.marginLeft} ]}>
                         {img}
                         <Text style={{color:"#fff",fontSize:12}}>{this.props.title}</Text>
                 </TouchableOpacity>)
@@ -108,6 +108,7 @@ var ToolBar = React.createClass({
                                     actions.map(function(action,pos){
                                         action.onPress = onActionPress;
                                         action.key = pos;
+										action.marginLeft = 12;
                                         return React.createElement(ActionButton,action,null);
                                     })
                                 }
@@ -157,6 +158,10 @@ var styles = StyleSheet.create({
         justifyContent:"space-around",// 水平方向
         alignItems:"center",
         flex:0
-    }
+    },
+	actionImg:{
+		width:24,
+		height:24
+	}
 });
 module.exports = ToolBar;
