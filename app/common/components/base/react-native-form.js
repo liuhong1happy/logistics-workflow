@@ -1,6 +1,5 @@
 'use strict'
-var React = require('react-native');
-
+var React = require('react');
 var {
     View,
     Text,
@@ -9,7 +8,7 @@ var {
     TextInput,
     TouchableOpacity,
     StyleSheet
-} = React;
+} = require('react-native');
 
 // props
 // {name:xxx,icon:xxx,title:xxx,width:120,style:{},onPress:function(){} }

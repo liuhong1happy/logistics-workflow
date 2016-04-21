@@ -1,5 +1,5 @@
 'use strict'
-var React = require('react-native')
+var React = require('react');
 var {
   View,
   Text,
@@ -7,7 +7,7 @@ var {
   TouchableOpacity,
   StyleSheet,
   Dimensions
-} = React;
+} = require('react-native');
 
 var {height, width} = Dimensions.get('window');
 

@@ -1,3 +1,4 @@
+
 'use strict';
 
 var React = require('react-native');
@@ -20,3 +21,5 @@ var LogisticsWorkflow = React.createClass({
 });
 
 AppRegistry.registerComponent('LogisticsWorkflow', () => LogisticsWorkflow);
+
+module.exports = LogisticsWorkflow;

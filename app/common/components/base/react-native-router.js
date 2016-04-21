@@ -1,11 +1,11 @@
 'use strict'
-var React = require('react-native')
+var React = require('react');
 var {
   View,
   Text,
   Navigator,
   TouchableHighlight
-} = React;
+} = require('react-native');
 
 var navigator = null;
 var RouteHistory = {

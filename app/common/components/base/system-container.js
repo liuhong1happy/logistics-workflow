@@ -1,12 +1,11 @@
 'use strict';
-
-var React = require('react-native');
+var React = require('react');
 var {
   StyleSheet,
   View,
   Platform,
   Dimensions
-} = React;
+} = require('react-native');
     
 var {height, width} = Dimensions.get('window');
 var isIOS = Platform.OS === 'ios';

@@ -1,8 +1,8 @@
 'use strict';
-var React = require('react-native');
+var React = require('react');
 var {
   AsyncStorage
-} = React;
+} =  require('react-native');
 
 var LocalStorageManager = function() {
     this.dataKey = "dataKey";

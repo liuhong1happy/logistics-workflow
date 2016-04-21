@@ -1,3 +1,4 @@
+'use strict'
 var SystemDispatcher = require('../dispatcher/system-dispatcher');
 var SystemConstants = require('../constants/system-constants');
 

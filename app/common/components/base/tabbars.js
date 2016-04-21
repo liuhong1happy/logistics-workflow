@@ -1,7 +1,7 @@
-var React = require('react-native')
+var React = require('react');
 var {
     Navigator,
-} = React;
+} = require('react-native');
 
 var router = require('../base/react-native-router');
 var History = router.History;

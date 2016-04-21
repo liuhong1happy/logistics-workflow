@@ -1,3 +1,4 @@
+'use strict'
 var systemActions = require('../actions/system-actions');
 var localStorageUtils = require('./local-storage-utils');
 
