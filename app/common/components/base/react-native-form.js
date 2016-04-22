@@ -7,11 +7,12 @@ var {
     Picker,
     TextInput,
     TouchableOpacity,
-    StyleSheet
+    StyleSheet,
 } = require('react-native');
-
+var Dimensions = require('./react-native-dimensions');
+var Platform = require('./react-native-platform');
 // props
-// {name:xxx,icon:xxx,title:xxx,width:120,style:{},onPress:function(){} }
+// {name:xxx,icon:xxx,title:xxx,style:{},onPress:function(){} }
 var Button = React.createClass({
     onPress:function(e){
         if(this.props.onPress){
@@ -19,17 +20,31 @@ var Button = React.createClass({
         }
     },
     genImage:function(){
+		var style = this.props.style;
+		var height = style && style.height?style.height :Dimensions.size["16"];
         if(this.props.icon){
-            return (<Image source={this.props.icon} width={24} height={24} />)
+            return (<View style={{height:height}}><Image source={this.props.icon} style={[styles.buttonImg,{lineHeight:height},this.props.imgStyle]} /></View>)
         }else{
-            return (<Text></Text>)
+            return (<View style={{height:0,width:0}}></View>)
         }
     },
     render:function(){
         var img = this.genImage();
-        return (<TouchableOpacity onPress={this.onPress} style={ [styles.button,this.props.style ]}>
+		var {title,style,icon,onPress,name,titleStyle,imgStyle,textAlign,...props} = this.props;
+		 var _style = StyleSheet.flatten(style);
+		var height = _style && _style.height?_style.height :Dimensions.size["16"];
+		
+		var screenWidth = _style && _style.width?_style.width : Dimensions.screenWidth;
+		var _imgStyle = icon?{width:Dimensions.size["12"],height:Dimensions.size["12"]}:{height:0,width:0};
+				
+		var textWidth  =  screenWidth - _imgStyle.width -Dimensions.size["4"]*2;
+				
+		var textStyle = Platform.isIOS ?[styles.buttonText,titleStyle] : [styles.buttonText,{lineHeight:height},titleStyle];
+        return (<TouchableOpacity onPress={this.onPress} style={[styles.buttonContainer,{height:height},style]} {...props}>
                         {img}
-                        <Text style={{color:"#fff",fontSize:12}}>{this.props.title}</Text>
+						<View style={{height:height,flexDirection:"row",alignItems:"center", justifyContent:textAlign?textAlign:"left", width:textWidth}}>
+                        	<Text style={textStyle}>{this.props.title}</Text>
+						</View>
                 </TouchableOpacity>)
     }
 })
@@ -37,20 +52,28 @@ var Button = React.createClass({
 var TextArea = React.createClass({
     render:function(){
         var {multiline,...props} = this.props;
-        return (<TextInput multiline={true} {..props}></TextInput>)
+        return (<TextInput multiline={true} {...props}></TextInput>)
     }
 })
-
 // DatePicker
 // DateTimePicker
 // CheckBox / CheckGroup
 // RadioBox / RadioGroup
 
-styles = StyleSheet.create({
-    button:{
-        backgroundColor:"#3399ff",
-        color:"#fff"
-    }
+var styles = StyleSheet.create({
+	buttonContainer:{
+		paddingHorizontal:Dimensions.size["4"]
+	},
+    buttonImg:{
+        width:Dimensions.size["12"], 
+		height:Dimensions.size["12"]
+    },
+	buttonText:{
+		color:"#fff",
+		fontSize:Dimensions.size["6"],
+		textAlignVertical:"center",
+		textAlign:"left"
+	}
 })
 
 module.exports.Button = Button;

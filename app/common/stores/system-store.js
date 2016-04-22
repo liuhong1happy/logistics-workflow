@@ -1,13 +1,9 @@
 'use strict'
 var SystemDispatcher = require('../dispatcher/system-dispatcher');
-var SystemConstants = require('../constants/system-constants');
+var {ActionTypes,EventTypes} = require('../constants/system-constants');
 
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
-
-var ActionTypes = SystemConstants.ActionTypes;
-var EventTypes = SystemConstants.EventTypes;
-
 
 // store model
 var _send_info_list = [];
@@ -29,7 +25,10 @@ var SystemStore = assign({},EventEmitter.prototype,{
     },
     getMyMessage:function(){
         return _message_list;
-    }
+    },
+	getUserInfo:function(){
+		return _user_info;
+	}
 })
 
 SystemStore.dispatchToken = SystemDispatcher.register(function(action){

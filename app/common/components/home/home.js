@@ -4,8 +4,7 @@ var {
   View,
   Text,
   Navigator,
-  StyleSheet,
-  Dimensions
+  StyleSheet
 } = require('react-native');
 
 var system = require('../base/system-container')

@@ -27,7 +27,8 @@ var data = {
 
 var manager = new LocalStorageManager();
 module.exports = {
-    setData:function(){
+    setData:function(type,details){
+		if(type) data[type] = details;
         manager.setData(data,function(error){
             console.log(error);
         });
@@ -38,6 +39,3 @@ module.exports = {
         });
     }
 }
-
-
-

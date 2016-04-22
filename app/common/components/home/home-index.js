@@ -12,21 +12,13 @@ var {
     RecyclerViewBackedScrollView,
     TouchableHighlight
 } = require('react-native')
-
-var router = require('../base/react-native-router');
-var Link = router.Link;
-
+var Dimensions = require('../base/react-native-dimensions');
+var {Link} = require('../base/react-native-router');
 var TabBars = require('../base/tabbars');
-
-var system = require('../base/system-container')
-var {ContentContainer} = system;
-
+var {ContentContainer} = require('../base/system-container')
 var ToolBar = require('../base/react-native-toolbar');
-
 var SystemStore = require('../../stores/system-store');
-var SystemConstants = require('../../constants/system-constants');
-var EventTypes = SystemConstants.EventTypes;
-
+var {EventTypes} = require('../../constants/system-constants');
 
 var logistics = require('../../images/logistics.png');
 
@@ -92,6 +84,7 @@ var HomeIndexView = React.createClass({
                         <ScrollView>
                                 <View style={styles.listTitle}><Text>我发布的信息</Text></View>
                                 <ListView 
+								enableEmptySections={true}
                                 dataSource={this.state.mySendInfoList}
                                 renderRow={this._renderMySendInfoRow}
                                 renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
@@ -99,6 +92,7 @@ var HomeIndexView = React.createClass({
                                 renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}></ListView>
                                 <View style={styles.listTitle}><Text>我的消息</Text></View>
                                 <ListView 
+								enableEmptySections={true}
                                 dataSource={this.state.messageList}
                                 renderRow={this._renderMyMessageRow}
                                 renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
@@ -115,25 +109,25 @@ var styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'center',
-    padding: 10,
+    padding: Dimensions.size["4"],
     backgroundColor: '#F6F6F6',
   },
   separator: {
     height: 1,
-    backgroundColor: '#CCCCCC',
+    backgroundColor: '#ccc',
   },
   thumb: {
-    width: 64,
-    height: 64,
+    width: Dimensions.size["32"],
+    height: Dimensions.size["32"],
   },
   text: {
     flex: 1,
   },
   listTitle:{
-    height:30,
-    padding:10,
+    height:Dimensions.size["16"],
+    padding:Dimensions.size["4"],
     backgroundColor:"#eee",
-    marginTop:5,
+    marginTop:Dimensions.size["2"],
     borderTopWidth:1,
     borderTopColor:"#ddd",
     borderStyle:"solid"

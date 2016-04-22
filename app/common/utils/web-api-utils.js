@@ -29,8 +29,15 @@ module.exports = {
     getMyMessage:function(){
         
     },
+	userLogout:function(formData){
+		localStorageUtils.setData("user_info",{});
+		systemActions.receivedUserInfo({});
+	},
+	userLogin:function(formData){
+		localStorageUtils.setData("user_info",formData);
+	},
     initData:function(){
-        localStorageUtils.setData();
+//        localStorageUtils.setData();
         localStorageUtils.getData(function(error,json){
             var data = JSON.parse(json);
             console.log(data);

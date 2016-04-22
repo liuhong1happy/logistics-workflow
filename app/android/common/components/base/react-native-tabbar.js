@@ -5,10 +5,9 @@ var {
   Text,
   Image,
   TouchableOpacity,
-  StyleSheet,
-  Dimensions
+  StyleSheet
 } = React;
-
+var Dimensions = require('./react-native-dimensions');
 var {height, width} = Dimensions.get('window');
 
 var Utils = {
@@ -60,7 +59,7 @@ var Tab = React.createClass({
         if(systemIcon){
             var glypy= this.state.glypy;
             var color = selected ?  selectedColor : defaultColor;
-            return (<Text style={{"color":color,"fontFamily":Utils.from,"fontSize":20,textAlign:"center","marginTop":5}}>{glypy[systemIcon]}</Text>)
+            return (<Text style={{"color":color,"fontFamily":Utils.from,"fontSize": Dimensions.getFontSize(10),textAlign:"center","marginTop": Dimensions.size["4"]}}>{glypy[systemIcon]}</Text>)
         } else {
             return (<Image source={selected? icon : selectedIcon}></Image>)
         }
@@ -99,8 +98,8 @@ var styles = StyleSheet.create({
         flex:1
     },
     labelRow:{
-        marginTop:5,
-        marginBottom:5
+        marginTop:Dimensions.size["2"],
+        marginBottom:Dimensions.size["2"]
     },
     label:{
         fontSize:10,

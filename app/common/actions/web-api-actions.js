@@ -1,5 +1,5 @@
-var SystemDispatcher = require('../dispatcher/SystemDispatcher');
-var WebAPIUtils = require('../web-api-utils');
+var SystemDispatcher = require('../dispatcher/system-dispatcher');
+var WebAPIUtils = require('../utils/web-api-utils');
 
 module.exports = {
     getMySendInfo:function(formData){
@@ -7,5 +7,11 @@ module.exports = {
     },
     getMyMessage:function(formData){
         WebAPIUtils.getMyMessage(formData);
-    }
+    },
+	userLogout:function(formData){
+		WebAPIUtils.userLogout(formData);
+	},
+	userLogin:function(formData){
+		WebAPIUtils.userLogin(formData);
+	}
 }

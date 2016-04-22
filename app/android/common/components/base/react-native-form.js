@@ -11,6 +11,8 @@ var {
     StyleSheet
 } = React;
 
+var Dimensions = require('./react-native-dimensions');
+
 // props
 // {name:xxx,icon:xxx,title:xxx,width:120,style:{},onPress:function(){} }
 var Button = React.createClass({
@@ -21,7 +23,7 @@ var Button = React.createClass({
     },
     genImage:function(){
         if(this.props.icon){
-            return (<Image source={this.props.icon} width={24} height={24} />)
+            return (<Image source={this.props.icon} width={Dimensions.size["12"]} height={Dimensions.size["12"]} />)
         }else{
             return (<Text></Text>)
         }
@@ -30,7 +32,7 @@ var Button = React.createClass({
         var img = this.genImage();
         return (<TouchableOpacity onPress={this.onPress} style={ [styles.button,this.props.style ]}>
                         {img}
-                        <Text style={{color:"#fff",fontSize:12}}>{this.props.title}</Text>
+                        <Text style={{color:"#fff", fontSize: Dimensions.size["6"]}}>{this.props.title}</Text>
                 </TouchableOpacity>)
     }
 })

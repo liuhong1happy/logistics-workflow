@@ -8,7 +8,7 @@ var LocalStorageManager = function() {
     this.dataKey = "dataKey";
     this.storage = AsyncStorage;
 }
-
+// base function
 LocalStorageManager.prototype.getItem = function(key,callback){
     AsyncStorage.getItem(key,callback)
 }
@@ -19,7 +19,7 @@ LocalStorageManager.prototype.removeItem = async function(key,callback){
     AsyncStorage.removeItem(key,callback);
 }
 
-// Best score getters/setters
+// data
 LocalStorageManager.prototype.getData = function (callback) {
      return this.getItem(this.dataKey,callback);
 };

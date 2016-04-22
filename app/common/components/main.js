@@ -18,12 +18,31 @@ var SearchView = require('./search/search')
 var SearchIndexView = require('./search/search-index')
 var UserView = require('./user/user')
 var UserIndexView = require('./user/user-index')
+var UserLoginView = require('./user/user-login')
 
 var router = require('./base/react-native-router')
 var Route = router.Route;
 var Router = router.Router;
+var History = router.History;
+
+var SystemStore = require('../stores/system-store')
+var {EventTypes} = require('../constants/system-constants')
 
 var MainApp = React.createClass({
+	componentDidMount:function(){
+		SystemStore.addChangeListener(EventTypes.RECEIVED_USER_INFO,this.handleUserDataChange);
+	},
+	componentWillUnmount:function(){
+		SystemStore.removeChangeListener(EventTypes.RECEIVED_USER_INFO,this.handleUserDataChange);
+	},
+	handleUserDataChange:function(){
+		var user = SystemStore.getUserInfo();
+		if(!(user && user.user_id) && History.curRoute.name!="/user/login"){
+			History.pushRoute("/user/login");
+		}else{
+			
+		}
+	},
     render:function(){
         return (<View style={styles.main}>
                 {this.props.children}
@@ -45,6 +64,7 @@ var RouterApp = React.createClass({
                         </Route>
                         <Route component={UserView} path="user">
                                 <Route component={UserIndexView} path="index"></Route>
+								<Route component={UserLoginView} path="login"></Route>
                         </Route>
                 </Router>)
     },

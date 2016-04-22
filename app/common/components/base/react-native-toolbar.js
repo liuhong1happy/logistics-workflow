@@ -5,10 +5,9 @@ var {
     Text,
     Image,
     TouchableOpacity,
-    StyleSheet,
-    Dimensions
+    StyleSheet
 } = require('react-native');
-
+var Dimensions = require('./react-native-dimensions');
 var {height, width} = Dimensions.get('window');
 // navIcon,logo,title,titleColor,subtitle,subtitleColor,actions
 // name title icon show showWithText
@@ -29,7 +28,7 @@ var ActionButton = React.createClass({
         var img = this.genImage();
         return (<TouchableOpacity onPress={this.onPress} style={ [styles.button,{"width":this.props.width,"marginLeft":this.props.marginLeft} ]}>
                         {img}
-                        <Text style={{color:"#fff",fontSize:12}}>{this.props.title}</Text>
+                        <Text style={{color:"#fff",fontSize:Dimensions.size["6"]}}>{this.props.title}</Text>
                 </TouchableOpacity>)
     }
 })
@@ -103,12 +102,12 @@ var ToolBar = React.createClass({
                                 { title }
                                 { subtitle }
                             </View>
-                            <View style={[styles.item,styles.actions,{justifyContent:"flex-end",marginRight:5}]}>
+                            <View style={[styles.item,styles.actions,{justifyContent:"flex-end",marginRight:Dimensions.size["2"]}]}>
                                 {
                                     actions.map(function(action,pos){
                                         action.onPress = onActionPress;
                                         action.key = pos;
-										action.marginLeft = 12;
+										action.marginLeft = Dimensions.size["6"];
                                         return React.createElement(ActionButton,action,null);
                                     })
                                 }
@@ -133,20 +132,20 @@ var styles = StyleSheet.create({
     titles:{
         flexDirection:"column",
         justifyContent:"space-around",
-        marginTop:5,
-        marginBottom:5,
+        marginTop:Dimensions.size["2"],
+        marginBottom:Dimensions.size["2"],
         alignItems:"center"
     },
     title:{
         flex:1,
         color:"#fff",
-        fontSize:12,
+        fontSize:Dimensions.size["6"],
         textAlign:"center"
     },
     subtitle:{
         flex:1,
         color:"#fff",
-        fontSize:6,
+        fontSize:Dimensions.size["4"],
         textAlign:"center"
     },
     actions:{
@@ -160,8 +159,8 @@ var styles = StyleSheet.create({
         flex:0
     },
 	actionImg:{
-		width:24,
-		height:24
+		width:Dimensions.size["12"],
+		height:Dimensions.size["12"]
 	}
 });
 module.exports = ToolBar;

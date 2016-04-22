@@ -4,15 +4,16 @@ var {
   StyleSheet,
   View,
   Platform,
-  Dimensions
 } = require('react-native');
     
+var Dimensions = require('./react-native-dimensions');
+var Platform = require('./react-native-platform');
+
 var {height, width} = Dimensions.get('window');
-var isIOS = Platform.OS === 'ios';
     
 var SystemContainer = React.createClass({
     render:function(){
-        return (<View style={styles.system}>
+        return (<View style={[styles.system,this.props.style]}>
                         {this.props.children}
                 </View>)
     }
@@ -20,7 +21,7 @@ var SystemContainer = React.createClass({
         
 var ContentContainer = React.createClass({
     render:function(){
-        return (<View style={styles.content}>
+        return (<View style={[styles.content,this.props.style]}>
                         {this.props.children}
                 </View>)
     }
@@ -28,12 +29,12 @@ var ContentContainer = React.createClass({
         
 var styles = StyleSheet.create({
     system:{
-        marginTop:isIOS?20:0,
-        height:isIOS?height-20:height,
+        marginTop:Platform.isIOS?20:0,
+        height:Platform.isIOS?height-20:height,
         width:width
     },
     content:{
-        height:isIOS?height-20:height,
+        height:Platform.isIOS?height-20:height,
         width:width,
         backgroundColor:"#ddd"
     }

@@ -5,9 +5,9 @@ var {
     Text,
     Image,
     TouchableOpacity,
-    StyleSheet,
-    Dimensions
+    StyleSheet
 } = React;
+var Dimensions = require('./react-native-dimensions');
 var {height, width} = Dimensions.get('window');
 // navIcon,logo,title,titleColor,subtitle,subtitleColor,actions
 // name title icon show showWithText
@@ -19,7 +19,7 @@ var ActionButton = React.createClass({
     },
     genImage:function(){
         if(this.props.icon){
-            return (<Image source={this.props.icon} width={24} height={24} />)
+            return (<Image source={this.props.icon} width={Dimensions.size["12"]} height={Dimensions.size["12"]} />)
         }else{
             return (<Text></Text>)
         }
@@ -28,7 +28,7 @@ var ActionButton = React.createClass({
         var img = this.genImage();
         return (<TouchableOpacity onPress={this.onPress} style={ [styles.button,{width:this.props.width} ]}>
                         {img}
-                        <Text style={{color:"#fff",fontSize:12}}>{this.props.title}</Text>
+                        <Text style={{color:"#fff",fontSize:Dimensions.size["6"]}}>{this.props.title}</Text>
                 </TouchableOpacity>)
     }
 })
@@ -131,20 +131,20 @@ var styles = StyleSheet.create({
     titles:{
         flexDirection:"column",
         justifyContent:"space-around",
-        marginTop:5,
-        marginBottom:5,
+        marginTop:Dimensions.size["2"],
+        marginBottom:Dimensions.size["2"],
         alignItems:"center"
     },
     title:{
         flex:1,
         color:"#fff",
-        fontSize:12,
+        fontSize:Dimensions.size["6"],
         textAlign:"center"
     },
     subtitle:{
         flex:1,
         color:"#fff",
-        fontSize:6,
+        fontSize:Dimensions.size["4"],
         textAlign:"center"
     },
     actions:{
