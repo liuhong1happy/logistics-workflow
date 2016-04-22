@@ -37,7 +37,7 @@ module.exports = {
 		localStorageUtils.setData("user_info",formData);
 	},
     initData:function(){
-//        localStorageUtils.setData();
+        localStorageUtils.setData();
         localStorageUtils.getData(function(error,json){
             var data = JSON.parse(json);
             console.log(data);

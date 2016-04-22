@@ -9,7 +9,6 @@ var {
     ScrollView,
     ListView,
     StyleSheet,
-    RecyclerViewBackedScrollView,
     TouchableHighlight
 } = require('react-native')
 var Dimensions = require('../base/react-native-dimensions');
@@ -88,16 +87,14 @@ var HomeIndexView = React.createClass({
                                 dataSource={this.state.mySendInfoList}
                                 renderRow={this._renderMySendInfoRow}
                                 renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
-                                renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}
-                                renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}></ListView>
+/>
                                 <View style={styles.listTitle}><Text>我的消息</Text></View>
                                 <ListView 
 								enableEmptySections={true}
                                 dataSource={this.state.messageList}
                                 renderRow={this._renderMyMessageRow}
                                 renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
-                                renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}
-                                renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}></ListView>
+/>
                         </ScrollView>              
                         <TabBars name="/home/index"></TabBars>
                 </ContentContainer>)
@@ -110,7 +107,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     padding: Dimensions.size["4"],
-    backgroundColor: '#F6F6F6',
+    backgroundColor: '#F6F6F6'
   },
   separator: {
     height: 1,
@@ -121,7 +118,7 @@ var styles = StyleSheet.create({
     height: Dimensions.size["32"],
   },
   text: {
-    flex: 1,
+    flex: 1
   },
   listTitle:{
     height:Dimensions.size["16"],

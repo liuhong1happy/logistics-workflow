@@ -18,11 +18,13 @@ var UserLoginView = React.createClass({
         return (<ContentContainer style={styles.container}>
                     <ToolBar navIcon={{}} logo={{}} title="登陆" subtitle="" actions={[]}></ToolBar>
                     <View style={styles.form}>
+                            <View style={styles.logoView}>
+                            </View>
 							<View style={styles.inputView}>
 								<TextInput placeholder="请输入用户名" autoFocus={true} style={styles.input}></TextInput> 
 							</View>
 							<View style={styles.inputView}>
-								<TextInput placeholder="请输入密码" style={styles.input}></TextInput> 
+								<TextInput placeholder="请输入密码" style={styles.input} secureTextEntry={true}></TextInput> 
 							</View>
 							<Button title="登陆" style={styles.button} textAlign="center"></Button>
 					</View>			  	
@@ -37,17 +39,22 @@ var styles = StyleSheet.create({
 		  	width:Dimensions.screenWidth,
 		  	height:Dimensions.screenHeight,
 		    alignItems:"center",
-		    marginTop:-Dimensions.size["12"]
+		    marginTop:-Dimensions.size["24"]
 	  },
+      logoView:{
+        height:Dimensions.size["24"],
+        width:Dimensions.size["24"],
+        borderWidth:1,
+        borderStyle:"solid",
+        borderColor:"#dbdbdb"
+      },
 	  inputView:{
-		  borderBottomWidth:1,
-		  borderBottomColor:"red",
-		  borderStyle:"solid",
-		  marginBottom:Dimensions.size["2"]
+          height:Dimensions.size["16"],
+          width:Dimensions.screenWidth-Dimensions.size["6"],
 	  },
 	  input:{
-		  height:Dimensions.size["12"],
-		  width:Dimensions.size["64"],
+		  height:Dimensions.size["16"],
+		  width:Dimensions.screenWidth-Dimensions.size["6"],
 		  fontSize:Dimensions.size["6"]
 	  },
 	  button:{

@@ -3,7 +3,6 @@ var React = require('react');
 var {
     ListView,
     View,
-	RecyclerViewBackedScrollView,
 	StyleSheet
 } = require('react-native');
 var TabBars = require('../base/tabbars');
@@ -66,7 +65,6 @@ var UserIndexView = React.createClass({
                                 dataSource={this.state.buttons}
                                 renderRow={this._renderRow}
                                 renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
-                                renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}
 							></ListView>
                     </View>
                     <TabBars name="/user/index"></TabBars>

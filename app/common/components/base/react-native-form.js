@@ -42,7 +42,7 @@ var Button = React.createClass({
 		var textStyle = Platform.isIOS ?[styles.buttonText,titleStyle] : [styles.buttonText,{lineHeight:height},titleStyle];
         return (<TouchableOpacity onPress={this.onPress} style={[styles.buttonContainer,{height:height},style]} {...props}>
                         {img}
-						<View style={{height:height,flexDirection:"row",alignItems:"center", justifyContent:textAlign?textAlign:"left", width:textWidth}}>
+						<View style={{height:height,flexDirection:"row",alignItems:"center", justifyContent:textAlign?textAlign:"flex-start", width:textWidth}}>
                         	<Text style={textStyle}>{this.props.title}</Text>
 						</View>
                 </TouchableOpacity>)
