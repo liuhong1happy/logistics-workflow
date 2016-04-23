@@ -20,6 +20,16 @@ var RouteHistory = {
                 name:name,index:index,config:config
             })
         }
+    },
+    resetToRoute:function(name,index,config){
+        index = index?index:0;
+        this.routeTable = [];
+        this.curRoute = { name:name, index:index, config:config };
+        if(navigator){
+            navigator.resetTo({
+                name:name,index:index,config:config
+            })
+        }
     }
 }
 var RouterUtils = {
@@ -76,7 +86,6 @@ var Router = React.createClass({
   componentDidMount:function(){
       // 全局navigator赋值
      navigator = this.refs.navigator;
-     RouteHistory.pushRoute(this.state.location);
   },
   componentWillUnmout:function(){
       window.removeEventListener("hashchange",this._handleHashChange)
@@ -153,7 +162,7 @@ var Router = React.createClass({
   },
   render: function() {     
     return (
-      <Navigator ref="navigator" initialRoute={{name:"/",index:0}} configureScene={this._handleConfigureScene} renderScene={this._handleHashChange}>
+      <Navigator ref="navigator" initialRoute={{name:this.props.defaultRoute,index:0}} configureScene={this._handleConfigureScene} renderScene={this._handleHashChange}>
       </Navigator>
     );
   }

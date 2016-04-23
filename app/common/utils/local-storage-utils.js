@@ -2,11 +2,7 @@
 var LocalStorageManager = require('./local-storage-manager');
 
 var data = {
-    user_info:{
-        user_id:"2016022901",
-        user_name:"admin",
-        user_email:"example@example.com"
-    },
+    user_info:{},
     my_send_info:[
         {
             source:"成都",

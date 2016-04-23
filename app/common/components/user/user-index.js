@@ -3,7 +3,8 @@ var React = require('react');
 var {
     ListView,
     View,
-	StyleSheet
+	StyleSheet,
+    Alert
 } = require('react-native');
 var TabBars = require('../base/tabbars');
 var {ContentContainer}  = require('../base/system-container')
@@ -48,8 +49,11 @@ var UserIndexView = React.createClass({
 	_pressRow:function(e,name){
 		switch(name){
 			case "logout":
-				History.pushRoute("/user/login");
-				WebAPIActions.userLogout({});
+                var handle = function(){
+                    History.pushRoute("/user/login");
+                    WebAPIActions.userLogout({});
+                }
+                Alert.alert("提示","确定要退出当前账号吗？",[{text: '确定', onPress: handle },{text: '取消', onPress: function(){} }]);
 				break;
 		}
     },

@@ -4,7 +4,8 @@ var {
     ListView,
     View,
 	RecyclerViewBackedScrollView,
-	StyleSheet
+	StyleSheet,
+    Alert
 } = require('react-native');
 var TabBars = require('../base/tabbars');
 var {ContentContainer}  = require('../base/system-container')
@@ -13,20 +14,63 @@ var { Link,History } = require('../base/react-native-router');
 var { Button,TextInput } = require('../base/react-native-form');
 var Dimensions = require('../base/react-native-dimensions');
 
+var WebAPIActions = require('../../actions/web-api-actions');
+var SystemStore = require('../../stores/system-store');
+var {EventTypes} = require('../../constants/system-constants');
+
 var UserLoginView = React.createClass({
+    getInitialState:function(){
+        return {
+            form_data:{}
+        }
+    },
+    componentDidMount:function(){
+        SystemStore.addChangeListener(EventTypes.POSTED_USER_LOGIN_FORM,this.handleUserLoginSuccess);
+    },
+    componentWillUnmount:function(){
+         SystemStore.removeChangeListener(EventTypes.POSTED_USER_LOGIN_FORM,this.handleUserLoginSuccess);
+    },
+    handleTextChange:function(name,text){
+        var form_data = this.state.form_data;
+        form_data[name] = text;
+        this.setState({
+            form_data:form_data
+        })
+    },
+    handleUserLogin:function(){
+        var form_data = this.state.form_data;
+        // 校验表单
+        if(!form_data.user_name){
+            Alert.alert("提示","请输入用户名");
+            return;
+        }
+        if(!form_data.user_pwd){
+            Alert.alert("提示","请输入密码");
+            return;
+        }
+        if(form_data.user_name!="admin" || form_data.user_pwd!="123456"){
+            Alert.alert("提示","你输入的用户名或密码错误");
+            return;
+        }
+        WebAPIActions.userLogin(form_data);
+    },
+    handleUserLoginSuccess:function(){
+        Alert.alert("提示","登录成功",[{text: '确定', onPress: () => History.resetToRoute("/home/index") }]);
+    },
     render:function(){
+        var form_data = this.state.form_data;
         return (<ContentContainer style={styles.container}>
-                    <ToolBar navIcon={{}} logo={{}} title="登陆" subtitle="" actions={[]}></ToolBar>
+                    <ToolBar navIcon={{}} logo={{}} title="登录" subtitle="用户登录页面" actions={[]}></ToolBar>
                     <View style={styles.form}>
                             <View style={styles.logoView}>
                             </View>
 							<View style={styles.inputView}>
-								<TextInput placeholder="请输入用户名" autoFocus={true} style={styles.input}></TextInput> 
+								<TextInput name="user_name" placeholder="请输入用户名" style={styles.input} value={form_data.user_name} onChangeText={this.handleTextChange}></TextInput> 
 							</View>
 							<View style={styles.inputView}>
-								<TextInput placeholder="请输入密码" style={styles.input} secureTextEntry={true}></TextInput> 
+								<TextInput name="user_pwd" placeholder="请输入密码" style={styles.input} secureTextEntry={true} value={form_data.user_pwd}  onChangeText={this.handleTextChange} maxLength={16}></TextInput> 
 							</View>
-							<Button title="登陆" style={styles.button} textAlign="center"></Button>
+							<Button title="登陆" style={styles.button} textAlign="center" onPress={this.handleUserLogin}></Button>
 					</View>			  	
                 </ContentContainer>)
     }

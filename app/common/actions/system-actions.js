@@ -21,5 +21,11 @@ module.exports = {
             type:ActionTypes.RECEIVED_USER_INFO,
             data:data
         })
-    }
+    },
+    postedUserLoginForm:function(data){
+        SystemDispatcher.dispatch({
+            type:ActionTypes.POSTED_USER_LOGIN_FORM,
+            data:data
+        })
+    },
 }

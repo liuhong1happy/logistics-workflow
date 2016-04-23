@@ -35,6 +35,7 @@ module.exports = {
 	},
 	userLogin:function(formData){
 		localStorageUtils.setData("user_info",formData);
+        systemActions.postedUserLoginForm(formData);
 	},
     initData:function(){
         localStorageUtils.setData();

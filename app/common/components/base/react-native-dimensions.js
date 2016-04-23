@@ -1,6 +1,7 @@
-var {Dimensions} = require('react-native');
+var {Dimensions,StatusBar} = require('react-native');
 
 var {width,scale,height} = Dimensions.get("window");
+var statusBarHeight = StatusBar.currentHeight;
 
 module.exports = {
 	get:Dimensions.get,
@@ -10,7 +11,7 @@ module.exports = {
 	width:width,
 	height:height,
 	scale:scale,
-	
+	statusBarHeight:statusBarHeight,
 	getFontSize:function(size){
 		return size*scale;// 4 6 8 12 16 24 32 48 64
 	},

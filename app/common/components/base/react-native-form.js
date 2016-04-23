@@ -60,6 +60,19 @@ var TextArea = React.createClass({
 // CheckBox / CheckGroup
 // RadioBox / RadioGroup
 
+// NewTextIntput
+var NewTextIntput = React.createClass({
+    handleChangeText:function(text){
+        if(this.props.onChangeText){
+             this.props.onChangeText(this.props.name,text)
+        }  
+    },
+    render:function(){
+        var {name,onChangeText,...props} = this.props;
+        return (<TextInput {...props} onChangeText={this.handleChangeText}/>)
+    }
+})
+
 var styles = StyleSheet.create({
 	buttonContainer:{
 		paddingHorizontal:Dimensions.size["4"]
@@ -77,7 +90,7 @@ var styles = StyleSheet.create({
 })
 
 module.exports.Button = Button;
-module.exports.TextInput = TextInput;
+module.exports.TextInput = NewTextIntput;
 module.exports.TextArea = TextArea;
 module.exports.Picker = Picker;
 module.exports.Switch = Switch;

@@ -20,6 +20,7 @@ var SearchIndexView = require('./search/search-index')
 var UserView = require('./user/user')
 var UserIndexView = require('./user/user-index')
 var UserLoginView = require('./user/user-login')
+var UserWelcomeView = require('./user/user-welcome')
 
 var router = require('./base/react-native-router')
 var Route = router.Route;
@@ -40,8 +41,6 @@ var MainApp = React.createClass({
 		var user = SystemStore.getUserInfo();
 		if(!(user && user.user_id) && History.curRoute.name!="/user/login"){
 			History.pushRoute("/user/login");
-		}else{
-			
 		}
 	},
     render:function(){
@@ -53,7 +52,7 @@ var MainApp = React.createClass({
 
 var RouterApp = React.createClass({
     render:function() {
-        return (<Router defaultRoute="/home/index" path="/" component={MainApp}>
+        return (<Router defaultRoute="/user/welcome" path="/" component={MainApp}>
                         <Route component={HomeView} path="home">
                                 <Route component={HomeIndexView} path="index"></Route>
                         </Route>
@@ -66,6 +65,7 @@ var RouterApp = React.createClass({
                         <Route component={UserView} path="user">
                                 <Route component={UserIndexView} path="index"></Route>
 								<Route component={UserLoginView} path="login"></Route>
+                                <Route component={UserWelcomeView} path="welcome"></Route>
                         </Route>
                 </Router>)
     },

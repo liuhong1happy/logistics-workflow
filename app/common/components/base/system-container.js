@@ -29,12 +29,12 @@ var ContentContainer = React.createClass({
         
 var styles = StyleSheet.create({
     system:{
-        marginTop:Platform.isIOS?20:0,
-        height:Platform.isIOS?height-20:height,
+        marginTop:Platform.isIOS?Dimensions.statusBarHeight:0,
+        height:height-Dimensions.statusBarHeight,
         width:width
     },
     content:{
-        height:Platform.isIOS?height-20:height,
+        height:height-Dimensions.statusBarHeight,
         width:width,
         backgroundColor:"#ddd"
     }

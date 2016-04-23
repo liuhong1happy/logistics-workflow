@@ -45,6 +45,10 @@ SystemStore.dispatchToken = SystemDispatcher.register(function(action){
             _user_info = action.data;
             SystemStore.emitChange(EventTypes.RECEIVED_USER_INFO);
             break;
+        case ActionTypes.POSTED_USER_LOGIN_FORM:
+            var data = action.data;
+            SystemStore.emitChange(EventTypes.POSTED_USER_LOGIN_FORM);
+            break;
     }
     
 })

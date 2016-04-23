@@ -8,10 +8,11 @@ var {
 var MainApp = require('./common/components/main');
 var WebAPIUtils = require('./common/utils/web-api-utils');
 
-// test
-WebAPIUtils.initData();
-
 var app = React.createClass({
+  componentDidMount:function(){
+        // test
+        WebAPIUtils.initData();
+  },
   render: function() {
     return (
       <MainApp />
