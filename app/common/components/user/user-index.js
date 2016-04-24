@@ -4,7 +4,8 @@ var {
     ListView,
     View,
 	StyleSheet,
-    Alert
+    Alert,
+    AppRegistry
 } = require('react-native');
 var TabBars = require('../base/tabbars');
 var {ContentContainer}  = require('../base/system-container')
@@ -55,6 +56,13 @@ var UserIndexView = React.createClass({
                 }
                 Alert.alert("提示","确定要退出当前账号吗？",[{text: '确定', onPress: handle },{text: '取消', onPress: function(){} }]);
 				break;
+            case "exit":
+                var handle = function(){
+                    // invalid
+                    // AppRegistry.unmountApplicationComponentAtRootTag(1);
+                }
+                Alert.alert("提示","确定要关闭应用吗？",[{text: '确定', onPress: handle },{text: '取消', onPress: function(){} }]);
+                break;
 		}
     },
 	_renderRow:function(rowData,sectionID, rowID){

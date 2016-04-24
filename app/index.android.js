@@ -15,7 +15,7 @@ var app = React.createClass({
   },
   render: function() {
     return (
-      <MainApp />
+      <MainApp ref="root" />
     );
   }
 });
