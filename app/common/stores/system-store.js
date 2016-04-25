@@ -10,6 +10,8 @@ var _send_info_list = [];
 var _message_list = [];
 var _user_info = {};
 var _provinces = [];
+// form address
+var _address_form = {}
 
 var SystemStore = assign({},EventEmitter.prototype,{
     emitChange:function(type){
@@ -50,7 +52,10 @@ var SystemStore = assign({},EventEmitter.prototype,{
 		}else{
 			return [];
 		}
-	}
+	},
+    getAddressForm:function(){
+        return _address_form;
+    }
 })
 
 SystemStore.dispatchToken = SystemDispatcher.register(function(action){
@@ -74,6 +79,23 @@ SystemStore.dispatchToken = SystemDispatcher.register(function(action){
 		case ActionTypes.RECEIVED_PROVINCES:
 			_provinces = action.data;
             SystemStore.emitChange(EventTypes.RECEIVED_PROVINCES);
+            break;
+        case ActionTypes.CHANGED_ADDRESS_FORM:
+            var {province,city,type,back,name} = action.data
+            var __provinces = _provinces.filter(function(ele,pos){
+                return ele.value == province;
+            })
+           var __cities = __provinces[0].cities.filter(function(ele,pos){
+                return ele.value == city;
+            })
+           _address_form = {
+               type,
+               back,
+               name,
+               province:__provinces[0],
+               city:__cities[0]
+           }
+            SystemStore.emitChange(EventTypes.CHANGED_ADDRESS_FORM);
             break;
     }
     

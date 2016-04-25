@@ -12,6 +12,7 @@ var defaultConfig = Navigator.SceneConfigs.FadeAndroid;
 var RouteHistory = {
     routeTable:[],
     curRoute:{index:0,name:"/user/welcome",config:defaultConfig},
+    // 修改当前路由，不适合后退页面，适合平行页面之间跳跃
     pushRoute:function(name,index,config){
         index = index?index:0;
 		config = config?config:defaultConfig;
@@ -29,6 +30,7 @@ var RouteHistory = {
 			}
         }
     },
+    // 重置route，适合首次初始化的时候
     resetToRoute:function(name,index,config){
         index = index?index:0;
 		config = config?config:defaultConfig;
@@ -38,6 +40,20 @@ var RouteHistory = {
             navigator.resetTo({
                 name:name,index:index,config:config
             })
+        }
+    },
+    // 后退到上一级
+    popRoute:function(){
+        if(navigator){
+            navigator.pop();
+        }
+    },
+    // 后退多级
+    popToRoute:function(name){
+        var routes = navigator.getCurrentRoutes();
+        var existRoutes = routes.filter(function(ele,pos){ return ele.name==name });
+        if(navigator && existRoutes.length>0){
+            navigator.popToRoute(existRoutes[0]);
         }
     }
 }

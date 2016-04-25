@@ -33,5 +33,11 @@ module.exports = {
             type:ActionTypes.RECEIVED_PROVINCES,
             data:data
         })
-	}
+	},
+    changedAddressForm:function(data){
+        SystemDispatcher.dispatch({
+            type:ActionTypes.CHANGED_ADDRESS_FORM,
+            data:data
+        })
+    }
 }

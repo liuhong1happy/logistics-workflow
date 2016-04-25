@@ -16,6 +16,7 @@ var ToolBar = require('../base/react-native-toolbar');
 var {TextInput,Button} = require('../base/react-native-form')
 var SystemStore = require('../../stores/system-store');
 var Dimensions = require('../base/react-native-dimensions');
+var {EventTypes} = require('../../constants/system-constants')
     
 var SendCarryView = React.createClass({
 	getInitialState:function(){
@@ -24,25 +25,47 @@ var SendCarryView = React.createClass({
 			form_data:{}
 		}
 	},
+    componentDidMount:function(){
+        SystemStore.addChangeListener(EventTypes.CHANGED_ADDRESS_FORM,this._handleAddressFormChange);
+    },
+    componentWillUnmount:function(){
+        SystemStore.removeChangeListener(EventTypes.CHANGED_ADDRESS_FORM,this._handleAddressFormChange);
+    },
 	onNavIconPress:function(){
-		History.pushRoute("/send/index");
+		History.popRoute();
 	},
 	handleChangeSource:function(){
 		var form_data = this.state.form_data;
 		var source = form_data.source?form_data.source:{};
 		History.pushRoute("/form/msg?name=source&type=province&"+
-						  "province="+(source.province?source.province.text:"")+
-						  "&city="+(source.city?source.city.text:"")+"&back=send_carry_source",
+						  "province="+(source.province?source.province.value:"")+
+						  "&city="+(source.city?source.city.value:"")+"&back=send_carry_source",
 				2,Navigator.SceneConfigs.PushFromRight)
 	},
 	handleChangeTarget:function(){
 		var form_data = this.state.form_data;
 		var target = form_data.target?form_data.target:{};
-		History.pushRoute("/form/msg?name=source&type=province&"+
-						  "province="+(target.province?target.province.text:"")+
-						  "&city="+(target.city?target.city.text:"")+"&back=send_carry_target",
+		History.pushRoute("/form/msg?name=target&type=province&"+
+						  "province="+(target.province?target.province.value:"")+
+						  "&city="+(target.city?target.city.value:"")+"&back=send_carry_target",
 				2,Navigator.SceneConfigs.PushFromRight)
 	},
+    _handleAddressFormChange:function(){
+        var data = SystemStore.getAddressForm();
+        switch(data.back){
+            case "send_carry_source":
+            case "send_carry_target":
+                var form_data = this.state.form_data;
+                form_data[data.name] = {
+                    province:data.province,
+                    city:data.city
+                }
+                this.setState({
+                    form_data:form_data
+                });
+                break;
+        }
+    },
     render:function(){
 		var user_info = this.state.user_info;
 		var form_data = this.state.form_data;
@@ -69,7 +92,7 @@ var SendCarryView = React.createClass({
 						<Text style={styles.formText}>联系电话</Text>
 					</View>
 					<View style={styles.formControl}>
-						<TextInput style={styles.formInput}  value={form_data.moblie}  textAlign="right" placeholder="请输入联系电话"></TextInput>
+						<TextInput style={styles.formInput}  value={form_data.moblie}  textAlign="left" placeholder="请输入联系电话"></TextInput>
 					</View>
 				</TouchableOpacity>
                 <TouchableOpacity style={styles.formRow} onPress={this.handleChangeSource}>
@@ -77,15 +100,15 @@ var SendCarryView = React.createClass({
 						<Text style={styles.formText}>始发地</Text>
 					</View>
 					<View style={styles.formControl}>
-						<TextInput style={styles.formInput}  value={source_address} editable={false}  textAlign="right" placeholder="请选择始发地"></TextInput>
+						<Text style={styles.formText}>{source_address}</Text>
 					</View>
 				</TouchableOpacity>
                 <TouchableOpacity style={styles.formRow} onPress={this.handleChangeTarget}>
 					<View style={styles.formLabel}>
-						<Text style={styles.formText}>目的地</Text>
+						<Text style={styles.formText} >目的地</Text>
 					</View>
 					<View style={styles.formControl}>
-						<TextInput style={styles.formInput}  value={target_address} editable={false}  textAlign="right" placeholder="请选择目的地"></TextInput>
+						<Text style={styles.formText} >{target_address}</Text>
 					</View>
 				</TouchableOpacity>
                 <TouchableOpacity style={styles.formRow}>
@@ -93,7 +116,7 @@ var SendCarryView = React.createClass({
 						<Text style={styles.formText}>承运工具</Text>
 					</View>
 					<View style={styles.formControl}>
-						<TextInput style={[styles.formInput,styles.disabled]}  value={user_info.user_name} editable={false} textAlign="right"></TextInput>
+						<TextInput style={[styles.formInput,styles.disabled]}  value={user_info.user_name} editable={false} textAlign="left"></TextInput>
 					</View>
 				</TouchableOpacity>
                 <TouchableOpacity style={styles.formRow}>
@@ -101,7 +124,7 @@ var SendCarryView = React.createClass({
 						<Text style={styles.formText}>承运频率</Text>
 					</View>
 					<View style={styles.formControl}>
-						<TextInput style={[styles.formInput,styles.disabled]}  value={user_info.user_name} editable={false} textAlign="right"></TextInput>
+						<TextInput style={[styles.formInput,styles.disabled]}  value={user_info.user_name} editable={false} textAlign="left"></TextInput>
 					</View>
 				</TouchableOpacity>
                 <TouchableOpacity style={styles.formRow}>
@@ -109,7 +132,7 @@ var SendCarryView = React.createClass({
 						<Text style={styles.formText}>具体时间</Text>
 					</View>
 					<View style={styles.formControl}>
-						<TextInput style={[styles.formInput,styles.disabled]}  value={user_info.user_name} editable={false} textAlign="right"></TextInput>
+						<TextInput style={[styles.formInput,styles.disabled]}  value={user_info.user_name} editable={false} textAlign="left"></TextInput>
 					</View>
 				</TouchableOpacity>
 				<Button style={styles.button} title="发布"  textAlign="center"></Button>
@@ -151,7 +174,7 @@ var styles = StyleSheet.create({
 	  },
 	  formText:{
 		  fontSize:Dimensions.size["6"],
-		  lineHeight:Dimensions.size["6"],
+		  lineHeight:Dimensions.size["8"],
 		  color:"#666"
 	  },
 	  disabled:{

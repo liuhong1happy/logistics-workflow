@@ -69,7 +69,7 @@ var NewTextIntput = React.createClass({
     },
     render:function(){
         var {name,onChangeText,...props} = this.props;
-        return (<TextInput {...props} onChangeText={this.handleChangeText}/>)
+        return (<TextInput {...props} onChangeText={this.handleChangeText} underlineColorAndroid="transparent" autoCapitalize="none"/>)
     }
 })
 
