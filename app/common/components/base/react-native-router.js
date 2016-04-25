@@ -4,7 +4,7 @@ var {
   View,
   Text,
   Navigator,
-  TouchableHighlight
+  TouchableOpacity
 } = require('react-native');
 
 var navigator = null;
@@ -208,9 +208,9 @@ var Link = React.createClass({
         }
     },
     render:function(){
-        return (<TouchableHighlight underlayColor="#B5B5B5" onPress={this.handlePress}>
+        return (<TouchableOpacity underlayColor="#B5B5B5" onPress={this.handlePress} style={this.props.style}>
                 { this.props.children }
-                </TouchableHighlight>)
+                </TouchableOpacity>)
     }
 });
         
