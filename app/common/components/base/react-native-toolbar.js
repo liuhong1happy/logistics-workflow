@@ -96,7 +96,7 @@ var ToolBar = React.createClass({
         return (<View style={styles.toolbar}>
                             <View style={[styles.item,styles.actions,{justifyContent:"flex-start",marginLeft:5}]}>
                                 <ActionButton icon={navIcon.icon} title={navIcon.title} name={navIcon.name} width={navIcon.width} onPress={this.onNavIconPress}/>
-                                <ActionButton icon={logo.icon} title={logo.title} name={logo.name} width={navIcon.width}  onPress={this.onNavIconPress}/>
+                                <ActionButton icon={logo.icon} title={logo.title} name={logo.name} width={navIcon.width}  onPress={this.onLogoPress}/>
                             </View>
                             <View style={[styles.item,styles.titles]}>
                                 { title }
@@ -125,6 +125,7 @@ var styles = StyleSheet.create({
         borderBottomWidth:0.5,
         borderStyle:"solid",
         backgroundColor:"#3399ff",
+		height:Dimensions.toolBarHeight
     },
     item:{
         flex:1

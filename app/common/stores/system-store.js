@@ -8,7 +8,8 @@ var assign = require('object-assign');
 // store model
 var _send_info_list = [];
 var _message_list = [];
-var _user_info = {}
+var _user_info = {};
+var _provinces = [];
 
 var SystemStore = assign({},EventEmitter.prototype,{
     emitChange:function(type){
@@ -28,6 +29,27 @@ var SystemStore = assign({},EventEmitter.prototype,{
     },
 	getUserInfo:function(){
 		return _user_info;
+	},
+	getProvinces:function(){
+		var provinces = [];
+		for(var i=0;i<_provinces.length;i++){
+			provinces.push({
+				text:_provinces[i].text,
+				value:_provinces[i].value
+			})
+		}
+		return provinces;
+	},
+	getCities:function(province){
+		if(!province) return [];
+		var provinces = _provinces.filter(function(ele,pos){
+			return province.value==ele.value;
+		})
+		if(provinces.length>0){
+			return provinces[0].cities?provinces[0].cities:[];
+		}else{
+			return [];
+		}
 	}
 })
 
@@ -48,6 +70,10 @@ SystemStore.dispatchToken = SystemDispatcher.register(function(action){
         case ActionTypes.POSTED_USER_LOGIN_FORM:
             var data = action.data;
             SystemStore.emitChange(EventTypes.POSTED_USER_LOGIN_FORM);
+            break;
+		case ActionTypes.RECEIVED_PROVINCES:
+			_provinces = action.data;
+            SystemStore.emitChange(EventTypes.RECEIVED_PROVINCES);
             break;
     }
     

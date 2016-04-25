@@ -8,21 +8,30 @@ var {
 } = require('react-native');
 
 var navigator = null;
+var defaultConfig = Navigator.SceneConfigs.FadeAndroid;
 var RouteHistory = {
     routeTable:[],
-    curRoute:{index:0,name:"/"},
+    curRoute:{index:0,name:"/user/welcome",config:defaultConfig},
     pushRoute:function(name,index,config){
         index = index?index:0;
-        this.routeTable.push(this.curRoute);
+		config = config?config:defaultConfig;
+        this.routeTable = navigator.getCurrentRoutes();
         this.curRoute = { name:name, index:index, config:config };
+		var existRoutes = this.routeTable.filter(function(ele,pos){ return ele.name==name });
+		
         if(navigator){
-            navigator.push({
-                name:name,index:index,config:config
-            })
+			if(existRoutes.length>0){
+				navigator.jumpTo(existRoutes[0])
+			}else{
+				navigator.push({
+					name:name,index:index,config:config
+				})
+			}
         }
     },
     resetToRoute:function(name,index,config){
         index = index?index:0;
+		config = config?config:defaultConfig;
         this.routeTable = [];
         this.curRoute = { name:name, index:index, config:config };
         if(navigator){
@@ -100,7 +109,7 @@ var Router = React.createClass({
                if(_hash.indexOf("?")!=-1){
                     var _hashs = _hash.split("?");
                     hashs[pos] = _hashs[0];
-                    eles = _hashs[1].split("&");
+                    var eles = _hashs[1].split("&");
                     for(var i=0;i<eles.length;i++){
                         var objs = eles[i].split("=");
                         props[objs[0]] = objs[1];

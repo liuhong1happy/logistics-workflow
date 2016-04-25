@@ -111,7 +111,7 @@ var styles = StyleSheet.create({
 		  borderTopRightRadius:Dimensions.size["2"],
 		  marginTop:Dimensions.size["6"]
 	  },
-	container:{
+	  container:{
 		backgroundColor:"#f0f0f0"
 	}
 })

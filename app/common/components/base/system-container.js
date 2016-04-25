@@ -30,11 +30,11 @@ var ContentContainer = React.createClass({
 var styles = StyleSheet.create({
     system:{
         marginTop:Platform.isIOS?Dimensions.statusBarHeight:0,
-        height:height-Dimensions.statusBarHeight,
+        height:Dimensions.contentHeight,
         width:width
     },
     content:{
-        height:height-Dimensions.statusBarHeight,
+        height:Dimensions.contentHeight,
         width:width,
         backgroundColor:"#ddd"
     }

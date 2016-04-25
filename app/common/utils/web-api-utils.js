@@ -38,14 +38,14 @@ module.exports = {
         systemActions.postedUserLoginForm(formData);
 	},
     initData:function(){
-        localStorageUtils.setData();
+//        localStorageUtils.setData();
         localStorageUtils.getData(function(error,json){
             var data = JSON.parse(json);
-            console.log(data);
             if(data && data.user_info){
                 systemActions.receivedUserInfo(data.user_info);
                 systemActions.receivedMySendInfo(data.my_send_info);
                 systemActions.receivedMyMessage(data.my_message);
+				systemActions.receivedProvinces(data.provinces);
             }  
         });
     }

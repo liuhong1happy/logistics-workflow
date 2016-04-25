@@ -1,7 +1,9 @@
-var {Dimensions,StatusBar} = require('react-native');
+var {Dimensions,StatusBar,Platform} = require('react-native');
 
 var {width,scale,height} = Dimensions.get("window");
-var statusBarHeight = StatusBar.currentHeight;
+var isIOS = Platform.OS == "ios";
+var statusBarHeight = isIOS? 20: StatusBar.currentHeight;
+
 
 module.exports = {
 	get:Dimensions.get,
@@ -12,6 +14,9 @@ module.exports = {
 	height:height,
 	scale:scale,
 	statusBarHeight:statusBarHeight,
+	toolBarHeight:16*scale,
+	tabBarHeight:22*scale,
+	contentHeight:height-statusBarHeight,
 	getFontSize:function(size){
 		return size*scale;// 4 6 8 12 16 24 32 48 64
 	},

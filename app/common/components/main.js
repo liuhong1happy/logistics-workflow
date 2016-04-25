@@ -15,12 +15,16 @@ var HomeView = require('./home/home')
 var HomeIndexView = require('./home/home-index')
 var SendView = require('./send/send')
 var SendIndexView = require('./send/send-index')
+var SendCarryView = require('./send/send-carry')
+var SendShipView = require('./send/send-ship');
 var SearchView = require('./search/search')
 var SearchIndexView = require('./search/search-index')
 var UserView = require('./user/user')
 var UserIndexView = require('./user/user-index')
 var UserLoginView = require('./user/user-login')
 var UserWelcomeView = require('./user/user-welcome')
+
+var FormAddress =  require('./form/form-address')
 
 var router = require('./base/react-native-router')
 var Route = router.Route;
@@ -39,8 +43,10 @@ var MainApp = React.createClass({
 	},
 	handleUserDataChange:function(){
 		var user = SystemStore.getUserInfo();
-		if(!(user && user.user_id) && History.curRoute.name!="/user/login"){
+		if(!(user && user.user_name) && History.curRoute.name!="/user/login"){
 			History.pushRoute("/user/login");
+		}else{
+			History.pushRoute("/home/index");
 		}
 	},
     render:function(){
@@ -58,6 +64,8 @@ var RouterApp = React.createClass({
                         </Route>
                         <Route component={SendView} path="send">
                                 <Route component={SendIndexView} path="index"></Route>
+								<Route component={SendCarryView} path="carry"></Route>
+								<Route component={SendShipView} path="ship"></Route>
                         </Route>
                         <Route component={SearchView} path="search">
                                  <Route component={SearchIndexView} path="index"></Route>
@@ -67,6 +75,7 @@ var RouterApp = React.createClass({
 								<Route component={UserLoginView} path="login"></Route>
                                 <Route component={UserWelcomeView} path="welcome"></Route>
                         </Route>
+						<Route component={FormAddress} path="form/msg"></Route>
                 </Router>)
     },
 })

@@ -5,7 +5,8 @@ var {
     View,
 	StyleSheet,
     Alert,
-    AppRegistry
+    AppRegistry,
+	Platform
 } = require('react-native');
 var TabBars = require('../base/tabbars');
 var {ContentContainer}  = require('../base/system-container')
@@ -62,6 +63,21 @@ var UserIndexView = React.createClass({
                     // AppRegistry.unmountApplicationComponentAtRootTag(1);
                 }
                 Alert.alert("提示","确定要关闭应用吗？",[{text: '确定', onPress: handle },{text: '取消', onPress: function(){} }]);
+                break;
+			case "about":
+                var handle = function(){
+                }
+                Alert.alert("关于应用","Logistics Workflow是由Idealsee集团使用ReactNative开发。",[{text: '确定', onPress: handle }]);
+                break;
+			case "version":
+                var handle = function(){
+                }
+                Alert.alert("版本信息","产品版本v0.0.1,React Native版本"+Platform.Version+"。",[{text: '确定', onPress: handle }]);
+                break;
+			case "upgrade":
+                var handle = function(){
+                }
+                Alert.alert("更新","产品暂无更新版本",[{text: '确定', onPress: handle }]);
                 break;
 		}
     },

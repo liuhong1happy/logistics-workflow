@@ -92,7 +92,8 @@ var styles = StyleSheet.create({
         width:width,
         borderTopColor:"#ccc",
         borderTopWidth:0.5,
-        borderStyle:"solid"
+        borderStyle:"solid",
+		height:Dimensions.tabBarHeight
     },
     tab:{
         flex:1

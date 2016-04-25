@@ -28,4 +28,10 @@ module.exports = {
             data:data
         })
     },
+	receivedProvinces:function(data){
+        SystemDispatcher.dispatch({
+            type:ActionTypes.RECEIVED_PROVINCES,
+            data:data
+        })
+	}
 }
