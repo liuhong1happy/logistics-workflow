@@ -3,27 +3,14 @@ var LocalStorageManager = require('./local-storage-manager');
 
 var data = {
     user_info:{},
-    my_send_info:[
-        {
-            source:"成都",
-            target:"上海",
-            mobile:"13366668888",
-            details:{}
-        }
-    ],
-    my_message:[
-        {
-            type:"send-info",
-            title:"发布承运信息",
-            subtitle:"发布成都到上海的承运信息，时间2016年4月1日上午9点出发，预计4月2日下午5点到上海。",
-            details:{}
-        }
-    ],
+    my_send_info:[],
+    my_message:[],
 	provinces:[
 		{text:"四川",value:"sichuan",cities:[
 			{text:"阿坝",value:"aba"},
 			{text:"巴中",value:"bazhong"},
 			{text:"德阳",value:"deyang"},
+			{text:"成都",value:"chengdu"},
 			{text:"达州",value:"dazhou"},
 			{text:"广安",value:"guangan"},
 			{text:"广元",value:"guangyuan"},
@@ -83,7 +70,40 @@ var data = {
 			{text:"渝中",value:"yuzhong"},
 			{text:"忠县",value:"zhongxian"},
 		]}
-	]
+	],
+	category:{
+		article_types:[
+			{text: "日用百货" ,value: "1"},
+			{text: "3C电子产品" ,value: "2"},
+			{text: "家具家电" ,value: "3"},
+			{text: "图书音像" ,value: "4"},
+			{text: "糖酒食品" ,value: "5"},
+			{text: "服装" ,value: "6"},
+			{text: "营养保健" ,value: "7"},
+			{text: "机械零部件" ,value: "8"},
+			{text: "建筑装饰" ,value: "9"}
+		],
+		transport_tools:[
+			{text: "货车" ,value: "1"},
+			{text: "火车" ,value: "2"},
+			{text: "飞机" ,value: "3"},
+			{text: "货轮" ,value: "4"},
+			{text: "其它" ,value: "4"},
+		],
+		transport_frequency:[
+			{text: "单次" ,value: "1"},
+			{text: "每天" ,value: "2"},
+			{text: "间隔N天" ,value: "3"},
+			{text: "每周" ,value: "4"},
+			{text: "每个月" ,value: "5"}
+		],
+		search_keys:[
+			{text:"始发地",value:"source"},
+			{text:"目的地",value:"target"},
+			{text:"频率",value:"frequency"},
+			{text:"工具",value:"tool"}
+		]
+	}
 }
 
 

@@ -12,7 +12,7 @@ var {
     TouchableHighlight
 } = require('react-native')
 var Dimensions = require('../base/react-native-dimensions');
-var {Link} = require('../base/react-native-router');
+var {Link,History} = require('../base/react-native-router');
 var TabBars = require('../base/tabbars');
 var {ContentContainer} = require('../base/system-container')
 var ToolBar = require('../base/react-native-toolbar');
@@ -48,7 +48,16 @@ var HomeIndexView = React.createClass({
         
     },
     _renderMySendInfoRow:function(rowData, sectionID, rowID){
-        var title = rowData.source+"到"+rowData.target+"，联系方式："+rowData.mobile;
+		var title = "";
+		switch(rowData.form_name){
+			case "send_ship":
+				title = "我有货物要托运，从"+rowData.source.city.text+"到"+rowData.target.city.text+"，联系方式："+rowData.mobile;
+				break;
+			case "send_carry":
+				title = "我可以承运从"+rowData.source.city.text+"到"+rowData.target.city.text+"的货物，联系方式："+rowData.mobile;
+				break;
+		}
+        
         return (
           <TouchableHighlight onPress={() => this._pressRow(rowID)}>
             <View>
@@ -75,11 +84,15 @@ var HomeIndexView = React.createClass({
           </TouchableHighlight>
         );
     },
+	onActionPress:function(e,name){
+		History.pushRoute("/"+name+"/index")
+	},
     render:function(){
         
         
         return (<ContentContainer>
-                        <ToolBar navIcon={{}} logo={{icon:require('../../images/logo.png')}} title="首页" subtitle="当前状态：在线" actions={[{title:"搜索"},{title:"添加"}]}></ToolBar>
+                        <ToolBar navIcon={{}} logo={{icon:require('../../images/logo.png')}} title="首页" subtitle="当前状态：在线" onActionPress={this.onActionPress}
+							actions={[{title:"搜索",name:"search"},{title:"添加",name:"send"}]}></ToolBar>
                         <ScrollView>
                                 <View style={styles.listTitle}><Text>我发布的信息</Text></View>
                                 <ListView 

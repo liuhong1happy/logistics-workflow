@@ -13,5 +13,11 @@ module.exports = {
 	},
 	userLogin:function(formData){
 		WebAPIUtils.userLogin(formData);
+	},
+	postSendCarryForm:function(formData){
+		WebAPIUtils.postSendCarryForm(formData);
+	},
+	postSendShipForm:function(formData){
+		WebAPIUtils.postSendShipForm(formData);
 	}
 }

@@ -6,7 +6,8 @@ var {
 	StyleSheet,
 	TouchableOpacity,
 	Picker,
-	Navigator
+	Navigator,
+	Alert
 } = require('react-native');
 
 var TabBars = require('../base/tabbars');
@@ -17,7 +18,9 @@ var {TextInput,Button} = require('../base/react-native-form')
 var SystemStore = require('../../stores/system-store');
 var Dimensions = require('../base/react-native-dimensions');
 var {EventTypes} = require('../../constants/system-constants')
-    
+   
+var WebAPIActions = require('../../actions/web-api-actions');
+
 var SendCarryView = React.createClass({
 	getInitialState:function(){
 		return {
@@ -27,12 +30,30 @@ var SendCarryView = React.createClass({
 	},
     componentDidMount:function(){
         SystemStore.addChangeListener(EventTypes.CHANGED_ADDRESS_FORM,this._handleAddressFormChange);
+		SystemStore.addChangeListener(EventTypes.CHANGED_CATEGORY_FORM,this._handleCategoryFormChange);
+		SystemStore.addChangeListener(EventTypes.CHANGED_DATE_PICKER_FORM,this._handleDatePickerFormChange);
+		
+		SystemStore.addChangeListener(EventTypes.POSTED_SEND_CARRY_FORM,this._postFormSuccess);
     },
     componentWillUnmount:function(){
         SystemStore.removeChangeListener(EventTypes.CHANGED_ADDRESS_FORM,this._handleAddressFormChange);
+		SystemStore.removeChangeListener(EventTypes.CHANGED_CATEGORY_FORM,this._handleCategoryFormChange);
+		SystemStore.removeChangeListener(EventTypes.CHANGED_DATE_PICKER_FORM,this._handleDatePickerFormChange);
+		
+		SystemStore.removeChangeListener(EventTypes.POSTED_SEND_CARRY_FORM,this._postFormSuccess);
     },
+	_postFormSuccess:function(){
+		Alert.alert("提示","新增承运信息成功",[{text: '确定', onPress: () => History.popRoute() }])
+	},
 	onNavIconPress:function(){
 		History.popRoute();
+	},
+	handleChangeMobile:function(name,text){
+		var form_data = this.state.form_data;
+		form_data.mobile = text;
+		this.setState({
+			form_data:form_data
+		})
 	},
 	handleChangeSource:function(){
 		var form_data = this.state.form_data;
@@ -48,6 +69,26 @@ var SendCarryView = React.createClass({
 		History.pushRoute("/form/msg?name=target&type=province&"+
 						  "province="+(target.province?target.province.value:"")+
 						  "&city="+(target.city?target.city.value:"")+"&back=send_carry_target",
+				2,Navigator.SceneConfigs.PushFromRight)
+	},
+	handleChangeTool:function(){
+		var form_data = this.state.form_data;
+		var tool = form_data.tool?form_data.tool:{};
+		History.pushRoute("/form/select?name=tool&type=transport_tools&"+
+						  "category="+(tool.value?tool.value:"")+"&back=send_carry_tool",
+				2,Navigator.SceneConfigs.PushFromRight)
+	},
+	handleChangeFrequency:function(){
+		var form_data = this.state.form_data;
+		var frequency = form_data.frequency?form_data.frequency:{};
+		History.pushRoute("/form/select?name=frequency&type=transport_frequency&"+
+						  "category="+(frequency.value?frequency.value:"")+"&back=send_carry_frequency",
+				2,Navigator.SceneConfigs.PushFromRight)
+	},
+	handleChangeDate:function(){
+		var form_data = this.state.form_data;
+		var date = form_data.date?form_data.date:{};
+		History.pushRoute("/form/datepicker?name=date&type=date&date="+(date.value?date.value:"")+"&back=send_carry_date",
 				2,Navigator.SceneConfigs.PushFromRight)
 	},
     _handleAddressFormChange:function(){
@@ -66,15 +107,77 @@ var SendCarryView = React.createClass({
                 break;
         }
     },
+	_handleCategoryFormChange:function(){
+        var data = SystemStore.getCategoryForm();
+        switch(data.back){
+            case "send_carry_tool":
+            case "send_carry_frequency":
+                var form_data = this.state.form_data;
+                form_data[data.name] = data.category;
+                this.setState({
+                    form_data:form_data
+                });
+                break;
+        }
+		
+	},
+	_handleDatePickerFormChange:function(){
+        var data = SystemStore.getDatePickerForm();
+        switch(data.back){
+            case "send_carry_date":
+                var form_data = this.state.form_data;
+                form_data[data.name] = data.date;
+                this.setState({
+                    form_data:form_data
+                });
+                break;
+        }
+	},
+	handleSubmit:function(e){
+		var form_data = this.state.form_data;
+		if(!form_data.mobile){
+			Alert.alert("提示","请输入联系电话");
+			return;
+		}
+		if(!form_data.source){
+			Alert.alert("提示","请选择始发地");
+			return;
+		}
+		if(!form_data.target){
+			Alert.alert("提示","请选择目的地");
+			return;
+		}
+		if(!form_data.tool){
+			Alert.alert("提示","请选择承运工具");
+			return;
+		}
+		if(!form_data.frequency){
+			Alert.alert("提示","请选择承运频率");
+			return;
+		}
+		if(!form_data.date){
+			Alert.alert("提示","请选择具体时间");
+			return;
+		}
+		var user_info = this.state.user_info;
+		form_data.user_name = user_info.user_name;
+		form_data.form_name = "send_carry";
+		form_data.form_key = new Date().valueOf();
+		WebAPIActions.postSendCarryForm(form_data);
+	},
     render:function(){
 		var user_info = this.state.user_info;
 		var form_data = this.state.form_data;
 		var source = form_data.source?form_data.source:{};
 		var target = form_data.target?form_data.target:{};
+		var tool = form_data.tool?form_data.tool:{};
+		var frequency = form_data.frequency?form_data.frequency:{};
+		var date = form_data.date?form_data.date:{};
 		
 		var source_address = (source.province?source.province.text:"")+" "+(source.city?source.city.text:"");
 		var target_address = (target.province?target.province.text:"")+" "+(target.city?target.city.text:"");
-		
+		 
+		var handleSubmit = this.handleSubmit;
         return (
         <ContentContainer>
             <ToolBar navIcon={{title:"返回"}} logo={{}} title="新增承运信息" subtitle="" actions={[]} onNavIconPress={this.onNavIconPress}></ToolBar>
@@ -84,7 +187,7 @@ var SendCarryView = React.createClass({
 						<Text style={styles.formText}>承运人</Text>
 					</View>
 					<View style={styles.formControl}>
-						<TextInput style={[styles.formInput,styles.disabled]}  value={user_info.user_name} editable={false} textAlign="right"></TextInput>
+						<TextInput style={[styles.formInput,styles.disabled]}  value={user_info.user_name} editable={false} textAlign="left"></TextInput>
 					</View>
 				</TouchableOpacity>
                 <TouchableOpacity style={styles.formRow}>
@@ -92,7 +195,7 @@ var SendCarryView = React.createClass({
 						<Text style={styles.formText}>联系电话</Text>
 					</View>
 					<View style={styles.formControl}>
-						<TextInput style={styles.formInput}  value={form_data.moblie}  textAlign="left" placeholder="请输入联系电话"></TextInput>
+						<TextInput style={styles.formInput}  value={form_data.mobile}  textAlign="left" placeholder="请输入联系电话" onChangeText={this.handleChangeMobile}></TextInput>
 					</View>
 				</TouchableOpacity>
                 <TouchableOpacity style={styles.formRow} onPress={this.handleChangeSource}>
@@ -111,31 +214,31 @@ var SendCarryView = React.createClass({
 						<Text style={styles.formText} >{target_address}</Text>
 					</View>
 				</TouchableOpacity>
-                <TouchableOpacity style={styles.formRow}>
+                <TouchableOpacity style={styles.formRow} onPress={this.handleChangeTool}>
 					<View style={styles.formLabel}>
 						<Text style={styles.formText}>承运工具</Text>
 					</View>
 					<View style={styles.formControl}>
-						<TextInput style={[styles.formInput,styles.disabled]}  value={user_info.user_name} editable={false} textAlign="left"></TextInput>
+						<Text style={styles.formText} >{tool.text}</Text>
 					</View>
 				</TouchableOpacity>
-                <TouchableOpacity style={styles.formRow}>
+                <TouchableOpacity style={styles.formRow} onPress={this.handleChangeFrequency}>
 					<View style={styles.formLabel}>
 						<Text style={styles.formText}>承运频率</Text>
 					</View>
 					<View style={styles.formControl}>
-						<TextInput style={[styles.formInput,styles.disabled]}  value={user_info.user_name} editable={false} textAlign="left"></TextInput>
+						<Text style={styles.formText} >{frequency.text}</Text>
 					</View>
 				</TouchableOpacity>
-                <TouchableOpacity style={styles.formRow}>
+                <TouchableOpacity style={styles.formRow} onPress={this.handleChangeDate}>
 					<View style={styles.formLabel}>
 						<Text style={styles.formText}>具体时间</Text>
 					</View>
 					<View style={styles.formControl}>
-						<TextInput style={[styles.formInput,styles.disabled]}  value={user_info.user_name} editable={false} textAlign="left"></TextInput>
+						<Text style={styles.formText} >{date.text}</Text>
 					</View>
 				</TouchableOpacity>
-				<Button style={styles.button} title="发布"  textAlign="center"></Button>
+				<Button style={styles.button} title="发布"  textAlign="center" onPress={handleSubmit}></Button>
             </View>
         </ContentContainer>)
     }

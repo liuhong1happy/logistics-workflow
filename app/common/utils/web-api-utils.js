@@ -37,6 +37,28 @@ module.exports = {
 		localStorageUtils.setData("user_info",formData);
         systemActions.postedUserLoginForm(formData);
 	},
+	postSendCarryForm:function(formData){
+		localStorageUtils.getData(function(error,json){
+			var data = JSON.parse(json);
+			if(data && data.my_send_info){
+				data.my_send_info = data.my_send_info?data.my_send_info:[];
+				data.my_send_info.push(formData);
+				localStorageUtils.setData("my_send_info",data.my_send_info);
+			}
+	  });
+		systemActions.postedSendCarryForm(formData);
+	},
+	postSendShipForm:function(formData){
+		localStorageUtils.getData(function(error,json){
+			var data = JSON.parse(json);
+			if(data && data.my_send_info){
+				data.my_send_info = data.my_send_info?data.my_send_info:[];
+				data.my_send_info.push(formData);
+				localStorageUtils.setData("my_send_info",data.my_send_info);
+			}
+	  });
+		systemActions.postedSendShipForm(formData);
+	},
     initData:function(){
 //        localStorageUtils.setData();
         localStorageUtils.getData(function(error,json){
@@ -46,6 +68,7 @@ module.exports = {
                 systemActions.receivedMySendInfo(data.my_send_info);
                 systemActions.receivedMyMessage(data.my_message);
 				systemActions.receivedProvinces(data.provinces);
+				systemActions.receivedCategory(data.category);
             }  
         });
     }

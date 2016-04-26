@@ -99,8 +99,7 @@ var FormAddress = React.createClass({
         })
         
 		var address = (_provinces.length>0?_provinces[0].text:"")+" "+(_cities.length>0?_cities[0].text:"")
-        return (<SystemContainer>
-			<ContentContainer>
+        return (<ContentContainer>
                         <ToolBar navIcon={{title:"返回"}} logo={{}} title="选择城市" subtitle="" actions={[]} onNavIconPress={this.onNavIconPress}></ToolBar>
                         <ScrollView>
                                 <View style={[styles.listTitle,styles.tab]}><Text style={styles.tabTitle}>当前位置</Text></View>
@@ -119,8 +118,7 @@ var FormAddress = React.createClass({
                                 renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />} 
 								></ListView>
                         </ScrollView>              
-                </ContentContainer>
-			</SystemContainer>)
+                </ContentContainer>)
 	}
 })
 

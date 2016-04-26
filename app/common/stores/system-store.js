@@ -9,9 +9,13 @@ var assign = require('object-assign');
 var _send_info_list = [];
 var _message_list = [];
 var _user_info = {};
-var _provinces = [];
 // form address
+var _provinces = [];
 var _address_form = {}
+// form selection
+var _category = {};
+var _category_form = {}
+var _date_picker_form = {}
 
 var SystemStore = assign({},EventEmitter.prototype,{
     emitChange:function(type){
@@ -55,7 +59,19 @@ var SystemStore = assign({},EventEmitter.prototype,{
 	},
     getAddressForm:function(){
         return _address_form;
-    }
+    },
+	getCategory:function(){
+		return _category;
+	},
+	getCategoryByType:function(type){
+		return _category[type]? _category[type] :_category;
+	},
+	getCategoryForm:function(){
+		return _category_form;
+	},
+	getDatePickerForm:function(){
+		return _date_picker_form;
+	}
 })
 
 SystemStore.dispatchToken = SystemDispatcher.register(function(action){
@@ -97,6 +113,48 @@ SystemStore.dispatchToken = SystemDispatcher.register(function(action){
            }
             SystemStore.emitChange(EventTypes.CHANGED_ADDRESS_FORM);
             break;
+		case ActionTypes.RECEIVED_CATEGORY:
+			_category = action.data;
+			SystemStore.emitChange(EventTypes.RECEIVED_CATEGORY);
+			break;
+		case ActionTypes.CHANGED_CATEGORY_FORM:
+			var {category,type,back,name} = action.data
+			var _categorys = _category[type].filter(function(ele,pos){
+				return ele.value == category;
+			})
+			_category_form = {
+				category:_categorys[0],
+				type,
+				back,
+				name
+			}
+			SystemStore.emitChange(EventTypes.CHANGED_CATEGORY_FORM);
+			break;
+		case ActionTypes.CHANGED_DATE_PICKER_FORM:
+			var {date,type,back,name} = action.data
+			date = parseInt(date);
+			_date_picker_form = {
+				date:{
+					date: new Date(date*1000),
+					value: date,
+					text: new Date(date*1000).Format("yyyy/MM/dd")
+				},
+				type,
+				back,
+				name
+			}
+			SystemStore.emitChange(EventTypes.CHANGED_DATE_PICKER_FORM);
+			break;
+		case ActionTypes.POSTED_SEND_SHIP_FORM:
+			_send_info_list.push(action.data);
+			SystemStore.emitChange(EventTypes.RECEIVED_MY_SEND_INFO);
+			SystemStore.emitChange(EventTypes.POSTED_SEND_SHIP_FORM);
+			break;
+		case ActionTypes.POSTED_SEND_CARRY_FORM:
+			_send_info_list.push(action.data);
+			SystemStore.emitChange(EventTypes.RECEIVED_MY_SEND_INFO);
+			SystemStore.emitChange(EventTypes.POSTED_SEND_CARRY_FORM);
+			break;
     }
     
 })

@@ -51,7 +51,7 @@ var ToolBar = React.createClass({
     },
     onActionPress:function(e,name){
         if(this.props.onActionPress){
-            this.props.onActionPress(e);
+            this.props.onActionPress(e,name);
         }
     },
     setNavIcon:function(navIcon){

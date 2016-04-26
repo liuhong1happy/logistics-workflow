@@ -24,7 +24,10 @@ var UserIndexView = require('./user/user-index')
 var UserLoginView = require('./user/user-login')
 var UserWelcomeView = require('./user/user-welcome')
 
+var FormView = require('./form/form')
 var FormAddress =  require('./form/form-address')
+var FormSelection = require('./form/form-selection')
+var FormDatePicker = require('./form/form-datepicker')
 
 var router = require('./base/react-native-router')
 var Route = router.Route;
@@ -75,7 +78,11 @@ var RouterApp = React.createClass({
 								<Route component={UserLoginView} path="login"></Route>
                                 <Route component={UserWelcomeView} path="welcome"></Route>
                         </Route>
-						<Route component={FormAddress} path="form/msg"></Route>
+						<Route component={FormView} path="form">
+							<Route component={FormAddress} path="msg"></Route>
+							<Route component={FormSelection} path="select"></Route>
+							<Route component={FormDatePicker} path="datepicker"></Route>
+						</Route>
                 </Router>)
     },
 })
