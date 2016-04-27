@@ -37,22 +37,7 @@ var SearchIndexView = React.createClass({
         <ContentContainer>
             <ToolBar navIcon={{}} logo={{icon:require('../../images/logo.png')}} title="搜索" subtitle="当前状态：在线" actions={[{title:"更多"}]}></ToolBar>
             <View style={styles.container}>
-                <TouchableOpacity style={styles.formRow} onPress={this.handleChangeSource}>
-					<View style={styles.formLabel}>
-						<Text style={styles.formText}>始发地</Text>
-					</View>
-					<View style={styles.formControl}>
-						<Text style={styles.formText}>{form_data.text}</Text>
-					</View>
-				</TouchableOpacity>
-				<View>
-					<View style={styles.formLabel}>
-						<Text style={styles.formText}>始发地</Text>
-					</View>
-					<View style={styles.formControl}>
-						<Text style={styles.formText}>{form_data.text}</Text>
-					</View>
-				</View>
+                
             </View>
             <TabBars name="/search/index"></TabBars>
         </ContentContainer>)

@@ -6,7 +6,8 @@ var {
 	StyleSheet,
     Alert,
     AppRegistry,
-	Platform
+	Platform,
+	Navigator
 } = require('react-native');
 var TabBars = require('../base/tabbars');
 var {ContentContainer}  = require('../base/system-container')
@@ -15,6 +16,7 @@ var { Link,History } = require('../base/react-native-router');
 var { Button } = require('../base/react-native-form');
 var Dimensions = require('../base/react-native-dimensions')
 var WebAPIActions = require('../../actions/web-api-actions')
+var SystemStore = require('../../stores/system-store')
 
 var UserIndexView = React.createClass({
 	getInitialState:function(){
@@ -52,8 +54,9 @@ var UserIndexView = React.createClass({
 		switch(name){
 			case "logout":
                 var handle = function(){
-                    History.pushRoute("/user/login");
-                    WebAPIActions.userLogout({});
+					// WebAPIActions.userLogout({});
+					SystemStore.clearUserInfo();
+                    History.pushRoute("/user/login",0,Navigator.SceneConfigs.PushFromRight);
                 }
                 Alert.alert("提示","确定要退出当前账号吗？",[{text: '确定', onPress: handle },{text: '取消', onPress: function(){} }]);
 				break;
@@ -72,7 +75,7 @@ var UserIndexView = React.createClass({
 			case "version":
                 var handle = function(){
                 }
-                Alert.alert("版本信息","产品版本v0.0.1,React Native版本"+Platform.Version+"。",[{text: '确定', onPress: handle }]);
+                Alert.alert("版本信息","产品版本v0.0.1,设备版本v"+Platform.Version+"。",[{text: '确定', onPress: handle }]);
                 break;
 			case "upgrade":
                 var handle = function(){

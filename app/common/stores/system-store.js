@@ -30,11 +30,27 @@ var SystemStore = assign({},EventEmitter.prototype,{
     getMySendInfo:function(){
         return _send_info_list;
     },
+	getMySendInfoByFormKey:function(form_key){
+		var list = _send_info_list.filter(function(ele,pos){
+			return ele.form_key == form_key;
+		})
+		if(list.length>0){
+			return list[0];
+		}else{
+			return null
+		}
+	},
     getMyMessage:function(){
         return _message_list;
     },
 	getUserInfo:function(){
 		return _user_info;
+	},
+	setUserInfo:function(user_info){
+		_user_info = user_info;
+	},
+	clearUserInfo:function(){
+		_user_info = {};
 	},
 	getProvinces:function(){
 		var provinces = [];

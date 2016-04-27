@@ -13,6 +13,7 @@ var {height, width} = Dimensions.get('window');
 
 var HomeView = require('./home/home')
 var HomeIndexView = require('./home/home-index')
+var HomeMyView = require('./home/home-my')
 var SendView = require('./send/send')
 var SendIndexView = require('./send/send-index')
 var SendCarryView = require('./send/send-carry')
@@ -46,8 +47,14 @@ var MainApp = React.createClass({
 	},
 	handleUserDataChange:function(){
 		var user = SystemStore.getUserInfo();
-		if(!(user && user.user_name) && History.curRoute.name!="/user/login"){
-			History.pushRoute("/user/login");
+		if(!(user && user.user_name) || History.curRoute.name!="/user/login"){
+			// History.pushRoute("/user/login");
+			// test
+			SystemStore.setUserInfo({
+				user_name:"admin",
+				user_pwd:"123456"
+			})
+			History.pushRoute("/home/index");
 		}else{
 			History.pushRoute("/home/index");
 		}
@@ -64,6 +71,7 @@ var RouterApp = React.createClass({
         return (<Router defaultRoute="/user/welcome" path="/" component={MainApp}>
                         <Route component={HomeView} path="home">
                                 <Route component={HomeIndexView} path="index"></Route>
+								<Route component={HomeMyView} path="my"></Route>
                         </Route>
                         <Route component={SendView} path="send">
                                 <Route component={SendIndexView} path="index"></Route>

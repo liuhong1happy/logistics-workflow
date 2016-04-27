@@ -23,7 +23,6 @@ var WebAPIActions = require('../../actions/web-api-actions');
 var SearchShipView = React.createClass({
 	getInitialState:function(){
 		return {
-			user_info:SystemStore.getUserInfo(),
 			form_data:{}
 		}
 	},
@@ -169,14 +168,14 @@ var SearchShipView = React.createClass({
 			Alert.alert("提示","请选择具体时间");
 			return;
 		}
-		var user_info = this.state.user_info;
+		var user_info = SystemStore.getUserInfo();
 		form_data.user_name = user_info.user_name;
 		form_data.form_name = "send_ship";
 		form_data.form_key = new Date().valueOf();
 		WebAPIActions.postSendShipForm(form_data);
 	},
     render:function(){
-		var user_info = this.state.user_info;
+		var user_info = SystemStore.getUserInfo();
 		var form_data = this.state.form_data;
 		var source = form_data.source?form_data.source:{};
 		var target = form_data.target?form_data.target:{};

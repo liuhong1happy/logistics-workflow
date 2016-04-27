@@ -44,8 +44,8 @@ var HomeIndexView = React.createClass({
             messageList:ds.cloneWithRows(SystemStore.getMyMessage())
         })
     },
-    _pressRow:function(){
-        
+    _pressRow:function(rowData){
+        History.pushRoute("/home/my?form_key="+rowData.form_key,1,Navigator.SceneConfigs.PushFromRight);
     },
     _renderMySendInfoRow:function(rowData, sectionID, rowID){
 		var title = "";
@@ -59,7 +59,7 @@ var HomeIndexView = React.createClass({
 		}
         
         return (
-          <TouchableHighlight onPress={() => this._pressRow(rowID)}>
+          <TouchableHighlight onPress={() => this._pressRow(rowData)}>
             <View>
               <View style={styles.row}>
                 <Text style={styles.text}>
